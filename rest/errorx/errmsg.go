@@ -6,6 +6,7 @@ func init() {
 	errMsg = make(map[ErrCode]string)
 	errMsg[SUCCESS] = "SUCCESS"
 	errMsg[FAILED] = "服务器开小差啦,稍后再来试一试"
+	errMsg[DATA_NOT_FOUND] = "数据未找到"
 	errMsg[PARAM_ERROR] = "参数错误"
 	errMsg[TOKEN_EXPIRE] = "token失效，请重新登陆"
 	errMsg[TOKEN_GENERATE_ERROR] = "生成token失败"

@@ -9,7 +9,7 @@ info (
 /* -------------- */
 type (
     UserReq {
-        C string `json:"c"`
+        ID int64 `json:"id"`
     }
 
     UserResp {
@@ -69,8 +69,7 @@ type (
 @server(
     prefix: v1
     group: pay
-    anotherKey: anotherValue
-    middleware: JwtAuth, abc
+    middleware: abc, xyz
 )
 service user-center {
     @handler getOrder

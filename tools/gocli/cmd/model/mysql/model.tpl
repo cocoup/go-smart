@@ -20,7 +20,7 @@ type (
 		Insert(data *{{.model}}) error
 		FindOne(id int64) (*{{.model}}, error)
 		FindOneByFilter(filter map[string]interface{}, opts ...sqlx.Option) (*{{.model}}, error)
-		FindByFilter(filter map[string]interface{}, opts ...sqlx.Option)([]*{{.model}}, error)
+		FindByFilter(filter map[string]interface{}, opts ...sqlx.Option)(*[]{{.model}}, error)
 		Save(*{{.model}}) *gorm.DB
 		Updates(*{{.model}}) *gorm.DB
 		UpdateByFilter(filter map[string]interface{}, upVal map[string]interface{}) *gorm.DB
@@ -54,16 +54,19 @@ func (d *default{{.model}}Model) Insert(data *{{.model}}) error {
 }
 
 func (d *default{{.model}}Model) FindOne(id int64) (data *{{.model}}, err error) {
+    data  = &{{.model}}{}
 	err = d.conn.FindOne(id, data)
 	return
 }
 
 func (d *default{{.model}}Model) FindOneByFilter(filter map[string]interface{}, opts ...sqlx.Option) (data *{{.model}}, err error) {
+    data  = &{{.model}}{}
 	err = d.conn.FindOneByFilter(filter, data, opts...)
 	return
 }
 
-func (d *default{{.model}}Model) FindByFilter(filter map[string]interface{}, opts ...sqlx.Option) (datas []*{{.model}}, err error) {
+func (d *default{{.model}}Model) FindByFilter(filter map[string]interface{}, opts ...sqlx.Option) (datas *[]{{.model}}, err error) {
+    datas  = &[]{{.model}}{}
 	err = d.conn.FindByFilter(filter, datas, opts...)
 	return
 }

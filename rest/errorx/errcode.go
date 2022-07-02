@@ -9,6 +9,7 @@ const (
 	/**(前2位代表业务,后2位代表具体功能)**/
 	FAILED               ErrCode = 10001 //失败返回
 	PARAM_ERROR          ErrCode = 10002
+	DATA_NOT_FOUND       ErrCode = 10003 //数据未找到
 	TOKEN_EXPIRE         ErrCode = 20001
 	TOKEN_GENERATE_ERROR ErrCode = 20002
 	DB_ERROR             ErrCode = 30001

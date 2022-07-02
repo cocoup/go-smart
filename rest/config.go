@@ -3,6 +3,7 @@ package rest
 import (
 	"github.com/cocoup/go-smart/core/jwt"
 	"github.com/cocoup/go-smart/core/prometheus"
+	"github.com/cocoup/go-smart/core/stores/sqlx"
 	"github.com/cocoup/go-smart/core/trace"
 )
 
@@ -22,4 +23,6 @@ type RestConf struct {
 	Port        int    `yaml:"port"`
 	RouteRoot   string `yaml:"route-root"`
 	CorsEnable  bool   `yaml:"cors-enable"`
+
+	SqlConf sqlx.SqlConf `yaml:"sql"`
 }

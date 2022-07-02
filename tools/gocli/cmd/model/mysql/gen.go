@@ -15,6 +15,7 @@ import (
 	"github.com/cocoup/go-smart/tools/gocli/cmd/config"
 	"github.com/cocoup/go-smart/tools/gocli/cmd/model/common"
 	"github.com/cocoup/go-smart/tools/gocli/cmd/util"
+	cliUtil "github.com/cocoup/go-smart/tools/gocli/util"
 	"github.com/cocoup/go-smart/tools/gocli/util/format"
 	"github.com/cocoup/go-smart/tools/gocli/util/pathx"
 )
@@ -22,6 +23,9 @@ import (
 var (
 	//go:embed model.tpl
 	modelTemplate string
+
+	//go:embed vars.tpl
+	varsTemplate string
 )
 
 var (
@@ -42,12 +46,42 @@ func DoCmd(_ *cobra.Command, _ []string) error {
 		return err
 	}
 
-	tablesPattern := common.ParseTableList(Tables)
+	pkg := filepath.Base(OutDir)
+	err = genVars(OutDir, pkg)
+	if nil != err {
+		fmt.Println(aurora.Red(fmt.Sprintf("generate vars error, %s", err.Error())))
+		return err
+	}
 
-	return genTables(OutDir, cfg, tablesPattern)
+	tablesPattern := common.ParseTableList(Tables)
+	return genTableModels(OutDir, pkg, cfg, tablesPattern)
 }
 
-func genTables(dir string, cfg *config.Config, pattern common.Pattern) error {
+func genVars(outDir, pkg string) error {
+	err := pathx.MkdirIfNotExist(outDir)
+	if err != nil {
+		return err
+	}
+
+	varFilename := "vars"
+
+	filename := filepath.Join(outDir, varFilename+".go")
+	text, err := pathx.LoadTemplate(category, varsTemplateFile, varsTemplate)
+	if err != nil {
+		return err
+	}
+
+	err = cliUtil.With("vars").Parse(text).SaveTo(map[string]interface{}{
+		"package": pkg,
+	}, filename, false)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func genTableModels(dir, pkg string, cfg *config.Config, pattern common.Pattern) error {
 	sql, err := NewSqlModel(DSN)
 	if nil != err {
 		return err
@@ -66,7 +100,7 @@ func genTables(dir string, cfg *config.Config, pattern common.Pattern) error {
 		if tableData, err := sql.GetColumns(table); nil != err {
 			return err
 		} else {
-			if err := genModel(dir, cfg, tableData); nil != err {
+			if err := genModel(dir, pkg, cfg, tableData); nil != err {
 				fmt.Println(aurora.Red(fmt.Sprintf("%s, ignored generation", err.Error())))
 				continue
 			}
@@ -76,7 +110,7 @@ func genTables(dir string, cfg *config.Config, pattern common.Pattern) error {
 	return nil
 }
 
-func genModel(dir string, cfg *config.Config, tableData *common.Table) error {
+func genModel(dir, pkg string, cfg *config.Config, tableData *common.Table) error {
 	fields, hasTime, err := getTableFields(tableData)
 	if nil != err {
 		return err
@@ -108,8 +142,6 @@ func genModel(dir string, cfg *config.Config, tableData *common.Table) error {
 			return err
 		}
 	}
-
-	pkg := filepath.Base(dir)
 
 	t := template.Must(template.New(modelTemplateFile).Parse(text))
 	buffer := new(bytes.Buffer)

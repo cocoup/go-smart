@@ -25,10 +25,10 @@ func DoCmd(_ *cobra.Command, _ []string) error {
 		return errors.New("missing -f")
 	}
 
-	return genProcjec(ApiFile, OutDir, CodeStyle)
+	return GenProcjec(ApiFile, OutDir, CodeStyle)
 }
 
-func genProcjec(apiFile, outDir, style string) error {
+func GenProcjec(apiFile, outDir, style string) error {
 	defer func() {
 		if err := recover(); err != nil {
 			//输出panic信息

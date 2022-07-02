@@ -15,7 +15,7 @@ import (
 	"github.com/cocoup/go-smart/tools/gocli/util/pathx"
 )
 
-const contextFilename = "service_context"
+const contextFilename = "context"
 
 var (
 	//go:embed service-context.tpl

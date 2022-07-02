@@ -2,10 +2,32 @@ package util
 
 import (
 	"fmt"
-	"github.com/cocoup/go-smart/tools/gocli/cmd/api/spec"
 	"io"
+	"os/exec"
 	"strings"
+
+	"github.com/cocoup/go-smart/tools/gocli/cmd/api/spec"
 )
+
+func GetGitName() string {
+	cmd := exec.Command("git", "config", "user.name")
+	out, err := cmd.CombinedOutput()
+	if err != nil {
+		return ""
+	}
+
+	return strings.TrimSpace(string(out))
+}
+
+func GetGitEmail() string {
+	cmd := exec.Command("git", "config", "user.email")
+	out, err := cmd.CombinedOutput()
+	if err != nil {
+		return ""
+	}
+
+	return strings.TrimSpace(string(out))
+}
 
 // ComponentName returns component name for typescript
 func ComponentName(api *spec.ApiSpec) string {
