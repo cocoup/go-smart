@@ -10,6 +10,7 @@ func init() {
 	errMsg[PARAM_ERROR] = "参数错误"
 	errMsg[TOKEN_EXPIRE] = "token失效，请重新登陆"
 	errMsg[TOKEN_GENERATE_ERROR] = "生成token失败"
+	errMsg[TOKEN_PARSE_ERROR] = "解析token失败"
 	errMsg[DB_ERROR] = "数据库繁忙,请稍后再试"
 }
 

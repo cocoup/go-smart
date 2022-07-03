@@ -39,6 +39,8 @@ func NewServer(conf RestConf, opts ...RunOption) (*Server, error) {
 		Engine: gin.New(),
 	}
 
+	server.Engine.ContextWithFallback = true
+
 	if conf.CorsEnable {
 		server.Engine.Use(middleware.Cors())
 	}

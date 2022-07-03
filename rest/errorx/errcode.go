@@ -12,7 +12,7 @@ const (
 	DATA_NOT_FOUND       ErrCode = 1003 //数据未找到
 	TOKEN_EXPIRE         ErrCode = 2001
 	TOKEN_GENERATE_ERROR ErrCode = 2002
-	TOKEN_CLAIMS_ERROR   ErrCode = 2003
+	TOKEN_PARSE_ERROR    ErrCode = 2003
 	DB_ERROR             ErrCode = 3001
 )
 

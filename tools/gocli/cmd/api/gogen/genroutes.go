@@ -82,7 +82,6 @@ func genRoutes(dir, rootPkg string, cfg *config.Config, api *spec.ApiSpec) error
 		}
 
 		group := g.group
-		group = strings.TrimRight(group, "/")
 		if len(g.prefix) > 0 {
 			group = fmt.Sprintf("%s/%s", g.prefix, group)
 		}
@@ -102,8 +101,9 @@ func genRoutes(dir, rootPkg string, cfg *config.Config, api *spec.ApiSpec) error
 		builder.WriteString("\n")
 		for _, route := range g.routes {
 			handler := strings.TrimSuffix(route.handler, "Handler")
+			path := strings.TrimRight(route.path, "/")
 			builder.WriteString(fmt.Sprintf("\tgroup.%s(\"%s\", %s.%s(svcCtx))\n",
-				route.method, route.path, g.group, handler))
+				route.method, path, g.group, handler))
 		}
 
 		builder.WriteString("}\n")

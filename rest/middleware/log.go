@@ -119,6 +119,7 @@ func detailHandler() gin.HandlerFunc {
 		ctx.Writer = lrw
 
 		logs := new(log.LogCollector)
+		// 调用过程中收集信息(ctx.Value(log.LogContext).(*log.LogCollector).Append("anything"))
 		ctx.Request = ctx.Request.WithContext(context.WithValue(ctx.Request.Context(), log.LogContext, logs))
 
 		ctx.Next()
@@ -155,7 +156,6 @@ func logDetail(ctx *gin.Context, reqStr string, lrw *logResponseWriter, timer *u
 	if exists {
 		buf.WriteString(fmt.Sprintf("\n[token]%s", token.(string)))
 	}
-	buf.WriteString(fmt.Sprintf("\n[token]%s", "asdjfkaldsjfpoqwjfasdkljfpqwefadsfkla'dsfkalds'falsdkfasdfjqwef;qkwejfqwe;fkqjwe;fkqjeq;wew"))
 
 	logger := logx.WithContext(ctx.Request.Context())
 	if httpCode < http.StatusInternalServerError {

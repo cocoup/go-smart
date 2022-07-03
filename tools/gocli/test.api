@@ -15,13 +15,16 @@ type (
     UserResp {
         Name string `json:"name"`
     }
+
+    TokenResp {
+        Token string `json:"token"`
+    }
 )
 
 @server(
     prefix: v1
     jwt: JwtAuth
     group: user
-    anotherKey: anotherValue
 )
 service user-center {
     @handler userInfo
@@ -29,6 +32,15 @@ service user-center {
 
     @handler updateUser
     post / (UserReq)
+}
+
+@server(
+    prefix: v1
+    group: user
+)
+service user-center {
+    @handler getToken
+    get /token returns (TokenResp)
 }
 
 /* -------------- */

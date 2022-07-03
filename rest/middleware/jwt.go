@@ -24,18 +24,24 @@ const (
 func JWTAuth(secret string) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		tok, err := token.ParseToken(ctx.Request, secret)
-		if err != nil {
-			unauthorized(ctx, err)
+		if err != nil && tok != nil {
+			ctx.AbortWithStatus(http.StatusUnauthorized)
 			return
 		}
 		if !tok.Valid {
-			result.HttpFailed(ctx, errorx.NewErrCode(errorx.TOKEN_EXPIRE))
+			httpFailed(ctx, errorx.TOKEN_EXPIRE)
 			return
 		}
 
 		claims, ok := tok.Claims.(jwt.MapClaims)
 		if !ok {
-			result.HttpFailed(ctx, errorx.NewErrCode(errorx.TOKEN_CLAIMS_ERROR))
+			httpFailed(ctx, errorx.TOKEN_PARSE_ERROR)
+			return
+		}
+
+		tokenStr, err := tok.SigningString()
+		if nil != err {
+			httpFailed(ctx, errorx.TOKEN_PARSE_ERROR)
 			return
 		}
 
@@ -50,12 +56,14 @@ func JWTAuth(secret string) gin.HandlerFunc {
 		}
 
 		ctx.Request = ctx.Request.WithContext(reqCtx)
-		ctx.Set(token.KEY_TOKEN, tok)
+
+		ctx.Set(token.KEY_TOKEN, tokenStr)
 
 		ctx.Next()
 	}
 }
 
-func unauthorized(ctx *gin.Context, err error) {
-	ctx.AbortWithStatus(http.StatusUnauthorized)
+func httpFailed(ctx *gin.Context, errCode errorx.ErrCode) {
+	result.HttpFailed(ctx, errorx.NewErrCode(errCode))
+	ctx.Abort()
 }

@@ -5,6 +5,7 @@ import (
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/golang-jwt/jwt/v4/request"
 	"net/http"
+	"time"
 )
 
 var (
@@ -16,9 +17,18 @@ var (
 
 var KEY_TOKEN = "x-token"
 
-func CreateToken(claims jwt.MapClaims, secret string) (string, error) {
+func CreateToken(secret string, seconds int64, payloads map[string]interface{}) (string, error) {
+	now := time.Now().Unix()
+	claims := jwt.MapClaims{
+		"exp": now + seconds,
+		"iat": now,
+	}
+	for k, v := range payloads {
+		claims[k] = v
+	}
+
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	return token.SignedString(secret)
+	return token.SignedString([]byte(secret))
 }
 
 func ParseToken(req *http.Request, secret string) (*jwt.Token, error) {
