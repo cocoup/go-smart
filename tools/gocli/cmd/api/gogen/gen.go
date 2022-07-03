@@ -10,8 +10,8 @@ import (
 
 	"github.com/cocoup/go-smart/tools/gocli/cmd/api/parser"
 	"github.com/cocoup/go-smart/tools/gocli/cmd/config"
-	"github.com/cocoup/go-smart/tools/gocli/cmd/util"
-	"github.com/cocoup/go-smart/tools/gocli/util/pathx"
+	"github.com/cocoup/go-smart/tools/gocli/cmd/utils"
+	"github.com/cocoup/go-smart/tools/gocli/utils/pathx"
 )
 
 var (
@@ -51,7 +51,7 @@ func GenProcjec(apiFile, outDir, style string) error {
 	}
 
 	logx.Must(pathx.MkdirIfNotExist(outDir))
-	rootPkg, err := util.GetParentPackage(outDir)
+	rootPkg, err := utils.GetParentPackage(outDir)
 	if err != nil {
 		return err
 	}

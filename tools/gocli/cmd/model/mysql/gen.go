@@ -14,10 +14,10 @@ import (
 
 	"github.com/cocoup/go-smart/tools/gocli/cmd/config"
 	"github.com/cocoup/go-smart/tools/gocli/cmd/model/common"
-	"github.com/cocoup/go-smart/tools/gocli/cmd/util"
-	cliUtil "github.com/cocoup/go-smart/tools/gocli/util"
-	"github.com/cocoup/go-smart/tools/gocli/util/format"
-	"github.com/cocoup/go-smart/tools/gocli/util/pathx"
+	"github.com/cocoup/go-smart/tools/gocli/cmd/utils"
+	cliUtil "github.com/cocoup/go-smart/tools/gocli/utils"
+	"github.com/cocoup/go-smart/tools/gocli/utils/format"
+	"github.com/cocoup/go-smart/tools/gocli/utils/pathx"
 )
 
 var (
@@ -124,7 +124,7 @@ func genModel(dir, pkg string, cfg *config.Config, tableData *common.Table) erro
 	modelName, _ := format.NamingFormat("GoZero", tableData.Table)
 	snakeModelName, _ := format.NamingFormat("go_zero", tableData.Table)
 
-	fp, created, err := util.MaybeCreateFile(dir, "", filename+".go")
+	fp, created, err := utils.MaybeCreateFile(dir, "", filename+".go")
 	if err != nil {
 		return err
 	}
@@ -157,7 +157,7 @@ func genModel(dir, pkg string, cfg *config.Config, tableData *common.Table) erro
 		return err
 	}
 
-	code := util.FormatCode(buffer.String())
+	code := utils.FormatCode(buffer.String())
 	_, err = fp.WriteString(code)
 	return err
 }

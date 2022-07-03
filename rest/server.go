@@ -4,8 +4,7 @@ import (
 	"fmt"
 	"github.com/cocoup/go-smart/core/prometheus"
 	"github.com/cocoup/go-smart/rest/middleware"
-	"github.com/cocoup/go-smart/tools/gocli/util"
-	"github.com/gin-contrib/gzip"
+	"github.com/cocoup/go-smart/tools/gocli/utils"
 	"github.com/gin-gonic/gin"
 	"log"
 )
@@ -18,12 +17,6 @@ type (
 		Engine *gin.Engine
 	}
 )
-
-func WithRecovery(b bool) RunOption {
-	return func(server *Server) {
-		server.Engine.Use(middleware.Recovery(b))
-	}
-}
 
 func WithCors() RunOption {
 	return func(server *Server) {
@@ -43,20 +36,20 @@ func MustNewServer(conf RestConf, opts ...RunOption) *Server {
 func NewServer(conf RestConf, opts ...RunOption) (*Server, error) {
 	server := &Server{
 		Conf:   conf,
-		Engine: gin.Default(),
+		Engine: gin.New(),
 	}
 
 	if conf.CorsEnable {
 		server.Engine.Use(middleware.Cors())
 	}
-	promMonitor := prometheus.NewMonitor(util.ToSnakeCase(conf.Name))
+	promMonitor := prometheus.NewMonitor(utils.ToSnakeCase(conf.Name))
 	server.Engine.Use(middleware.Prometheus(promMonitor, server.Engine))
-	server.Engine.Use(middleware.LogHandler())
-	server.Engine.Use(gzip.Gzip(gzip.DefaultCompression))
-
+	server.Engine.Use(middleware.LogHandler(conf.Verbose))
+	server.Engine.Use(middleware.Recovery(true))
 	for _, opt := range opts {
 		opt(server)
 	}
+	server.Engine.Use(middleware.Unzip())
 
 	//server.Engine.GET("/metrics", gin.WrapH(promhttp.Handler()))
 

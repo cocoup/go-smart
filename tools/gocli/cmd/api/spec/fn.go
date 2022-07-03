@@ -2,7 +2,7 @@ package spec
 
 import (
 	"errors"
-	"github.com/cocoup/go-smart/tools/gocli/util"
+	"github.com/cocoup/go-smart/tools/gocli/utils"
 	"path"
 	"strings"
 
@@ -94,7 +94,7 @@ func (m Member) GetPropertyName() (string, error) {
 	for _, tag := range tags {
 		if stringx.Contains(definedKeys, tag.Key) {
 			if tag.Name == "-" {
-				return util.Untitle(m.Name), nil
+				return utils.Untitle(m.Name), nil
 			}
 			return tag.Name, nil
 		}

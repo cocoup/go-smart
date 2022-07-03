@@ -10,9 +10,9 @@ import (
 
 	"github.com/cocoup/go-smart/tools/gocli/cmd/api/spec"
 	"github.com/cocoup/go-smart/tools/gocli/cmd/config"
-	"github.com/cocoup/go-smart/tools/gocli/cmd/util"
-	"github.com/cocoup/go-smart/tools/gocli/util/format"
-	"github.com/cocoup/go-smart/tools/gocli/util/pathx"
+	"github.com/cocoup/go-smart/tools/gocli/cmd/utils"
+	"github.com/cocoup/go-smart/tools/gocli/utils/format"
+	"github.com/cocoup/go-smart/tools/gocli/utils/pathx"
 	"github.com/cocoup/go-smart/tools/gocli/vars"
 )
 
@@ -37,7 +37,7 @@ func genHandlers(dir, rootPkg string, cfg *config.Config, api *spec.ApiSpec) err
 				fmt.Println(aurora.Red(fmt.Sprintf("format file name error, %s\n", err.Error())))
 			}
 
-			err = util.GenFile(util.FileGenConfig{
+			err = utils.GenFile(utils.FileGenConfig{
 				Dir:             path.Join(dir, handlerDir),
 				Subdir:          subdir,
 				Filename:        filename + ".go",

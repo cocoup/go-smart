@@ -18,7 +18,6 @@ func main() {
 
     server := rest.MustNewServer(
         c.RestConf,
-        rest.WithRecovery(true),
     )
 
     route.RegisterHandlers(server, svcCtx)

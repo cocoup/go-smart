@@ -4,7 +4,7 @@ import (
 	_ "embed"
 	"errors"
 	"fmt"
-	"github.com/cocoup/go-smart/tools/gocli/cmd/api/util"
+	"github.com/cocoup/go-smart/tools/gocli/cmd/api/utils"
 	"github.com/logrusorgru/aurora"
 	"github.com/spf13/cobra"
 	"github.com/zeromicro/go-zero/tools/goctl/util/pathx"
@@ -44,8 +44,8 @@ func DoCmd(_ *cobra.Command, _ []string) error {
 
 	t := template.Must(template.New("apiTemplate").Parse(text))
 	if err := t.Execute(fp, map[string]string{
-		"gitUser":     util.GetGitName(),
-		"gitEmail":    util.GetGitEmail(),
+		"gitUser":     utils.GetGitName(),
+		"gitEmail":    utils.GetGitEmail(),
 		"serviceName": baseName,
 	}); err != nil {
 		return err

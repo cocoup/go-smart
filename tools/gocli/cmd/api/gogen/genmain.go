@@ -7,9 +7,9 @@ import (
 
 	"github.com/cocoup/go-smart/tools/gocli/cmd/api/spec"
 	"github.com/cocoup/go-smart/tools/gocli/cmd/config"
-	"github.com/cocoup/go-smart/tools/gocli/cmd/util"
-	"github.com/cocoup/go-smart/tools/gocli/util/format"
-	"github.com/cocoup/go-smart/tools/gocli/util/pathx"
+	"github.com/cocoup/go-smart/tools/gocli/cmd/utils"
+	"github.com/cocoup/go-smart/tools/gocli/utils/format"
+	"github.com/cocoup/go-smart/tools/gocli/utils/pathx"
 	"github.com/cocoup/go-smart/tools/gocli/vars"
 )
 
@@ -27,7 +27,7 @@ func genMain(dir, rootPkg string, cfg *config.Config, api *spec.ApiSpec) error {
 		filename = strings.ReplaceAll(filename, "-api", "")
 	}
 
-	return util.GenFile(util.FileGenConfig{
+	return utils.GenFile(utils.FileGenConfig{
 		Dir:             dir,
 		Subdir:          "",
 		Filename:        filename + ".go",

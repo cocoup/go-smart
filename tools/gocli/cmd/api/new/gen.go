@@ -2,14 +2,15 @@ package new
 
 import (
 	_ "embed"
-	"github.com/cocoup/go-smart/tools/gocli/cmd/api/gogen"
-	"github.com/cocoup/go-smart/tools/gocli/cmd/api/util"
-	"github.com/cocoup/go-smart/tools/gocli/cmd/config"
-	"github.com/cocoup/go-smart/tools/gocli/util/pathx"
 	"html/template"
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/cocoup/go-smart/tools/gocli/cmd/api/gogen"
+	"github.com/cocoup/go-smart/tools/gocli/cmd/api/utils"
+	"github.com/cocoup/go-smart/tools/gocli/cmd/config"
+	"github.com/cocoup/go-smart/tools/gocli/utils/pathx"
 )
 
 //go:embed api.tpl
@@ -51,8 +52,8 @@ func DoCmd(args []string) error {
 
 	t := template.Must(template.New("template").Parse(text))
 	if err := t.Execute(fp, map[string]string{
-		"gitUser":  util.GetGitName(),
-		"gitEmail": util.GetGitEmail(),
+		"gitUser":  utils.GetGitName(),
+		"gitEmail": utils.GetGitEmail(),
 		"name":     dirName,
 		"handler":  strings.Title(dirName),
 	}); err != nil {

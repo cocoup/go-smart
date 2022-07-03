@@ -2,17 +2,17 @@ package gogen
 
 import (
 	"fmt"
+	"github.com/cocoup/go-smart/tools/gocli/cmd/api/utils"
 	"io"
 	"strings"
 
 	"github.com/zeromicro/go-zero/core/collection"
 
 	"github.com/cocoup/go-smart/tools/gocli/cmd/api/spec"
-	"github.com/cocoup/go-smart/tools/gocli/cmd/api/util"
 )
 
 func writeProperty(writer io.Writer, name, tag, comment string, tp spec.Type, indent int) error {
-	util.WriteIndent(writer, indent)
+	utils.WriteIndent(writer, indent)
 	var err error
 	if len(comment) > 0 {
 		comment = strings.TrimPrefix(comment, "//")

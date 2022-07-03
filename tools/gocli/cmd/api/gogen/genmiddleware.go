@@ -2,11 +2,12 @@ package gogen
 
 import (
 	_ "embed"
+	"strings"
+
 	"github.com/cocoup/go-smart/tools/gocli/cmd/api/spec"
 	"github.com/cocoup/go-smart/tools/gocli/cmd/config"
-	"github.com/cocoup/go-smart/tools/gocli/cmd/util"
-	"github.com/cocoup/go-smart/tools/gocli/util/format"
-	"strings"
+	"github.com/cocoup/go-smart/tools/gocli/cmd/utils"
+	"github.com/cocoup/go-smart/tools/gocli/utils/format"
 )
 
 //go:embed middleware.tpl
@@ -22,7 +23,7 @@ func genMiddleware(dir string, cfg *config.Config, api *spec.ApiSpec) error {
 		}
 
 		name := strings.TrimSuffix(item, "Middleware")
-		err = util.GenFile(util.FileGenConfig{
+		err = utils.GenFile(utils.FileGenConfig{
 			Dir:             dir,
 			Subdir:          middlewareDir,
 			Filename:        filename + ".go",

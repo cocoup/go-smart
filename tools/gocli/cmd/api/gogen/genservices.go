@@ -10,9 +10,9 @@ import (
 
 	"github.com/cocoup/go-smart/tools/gocli/cmd/api/spec"
 	"github.com/cocoup/go-smart/tools/gocli/cmd/config"
-	"github.com/cocoup/go-smart/tools/gocli/cmd/util"
-	"github.com/cocoup/go-smart/tools/gocli/util/format"
-	"github.com/cocoup/go-smart/tools/gocli/util/pathx"
+	"github.com/cocoup/go-smart/tools/gocli/cmd/utils"
+	"github.com/cocoup/go-smart/tools/gocli/utils/format"
+	"github.com/cocoup/go-smart/tools/gocli/utils/pathx"
 )
 
 const contextFilename = "context"
@@ -34,7 +34,7 @@ func genServiceContext(dir, rootPkg string, cfg *config.Config) error {
 
 	configImport := "\"" + pathx.JoinPackages(rootPkg, configDir) + "\""
 
-	return util.GenFile(util.FileGenConfig{
+	return utils.GenFile(utils.FileGenConfig{
 		Dir:             dir,
 		Subdir:          serviceDir,
 		Filename:        filename + ".go",
@@ -93,7 +93,7 @@ func genServices(dir, rootPkg string, cfg *config.Config, api *spec.ApiSpec) err
 				requestString = "req *" + requestGoTypeName(route, typesPacket)
 			}
 
-			err = util.GenFile(util.FileGenConfig{
+			err = utils.GenFile(utils.FileGenConfig{
 				Dir:             path.Join(dir, serviceDir),
 				Subdir:          pkg,
 				Filename:        filename + ".go",
@@ -118,7 +118,7 @@ func genServices(dir, rootPkg string, cfg *config.Config, api *spec.ApiSpec) err
 			}
 		}
 
-		err := util.GenFile(util.FileGenConfig{
+		err := utils.GenFile(utils.FileGenConfig{
 			Dir:             path.Join(dir, serviceDir),
 			Subdir:          pkg,
 			Filename:        "service.go",

@@ -3,7 +3,7 @@ package ast
 import (
 	"fmt"
 	"github.com/cocoup/go-smart/tools/gocli/cmd/api/parser/g4/gen/api"
-	"github.com/cocoup/go-smart/tools/gocli/util/console"
+	"github.com/cocoup/go-smart/tools/gocli/utils/console"
 	"io/ioutil"
 	"path"
 	"path/filepath"

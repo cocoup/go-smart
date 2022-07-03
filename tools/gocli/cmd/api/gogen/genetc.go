@@ -7,8 +7,8 @@ import (
 
 	"github.com/cocoup/go-smart/tools/gocli/cmd/api/spec"
 	"github.com/cocoup/go-smart/tools/gocli/cmd/config"
-	"github.com/cocoup/go-smart/tools/gocli/cmd/util"
-	"github.com/cocoup/go-smart/tools/gocli/util/format"
+	"github.com/cocoup/go-smart/tools/gocli/cmd/utils"
+	"github.com/cocoup/go-smart/tools/gocli/utils/format"
 )
 
 const (
@@ -30,7 +30,7 @@ func genEtc(dir string, cfg *config.Config, api *spec.ApiSpec) error {
 	host := "0.0.0.0"
 	port := strconv.Itoa(defaultPort)
 
-	return util.GenFile(util.FileGenConfig{
+	return utils.GenFile(utils.FileGenConfig{
 		Dir:             dir,
 		Subdir:          etcDir,
 		Filename:        fmt.Sprintf("%v.yaml", fileName),

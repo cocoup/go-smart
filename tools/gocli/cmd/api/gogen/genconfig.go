@@ -5,8 +5,8 @@ import (
 
 	"github.com/cocoup/go-smart/tools/gocli/cmd/api/spec"
 	"github.com/cocoup/go-smart/tools/gocli/cmd/config"
-	"github.com/cocoup/go-smart/tools/gocli/cmd/util"
-	"github.com/cocoup/go-smart/tools/gocli/util/format"
+	"github.com/cocoup/go-smart/tools/gocli/cmd/utils"
+	"github.com/cocoup/go-smart/tools/gocli/utils/format"
 	"github.com/cocoup/go-smart/tools/gocli/vars"
 )
 
@@ -53,7 +53,7 @@ func genConfig(dir string, cfg *config.Config, api *spec.ApiSpec) error {
 	//}
 	authImportStr := fmt.Sprintf("\"%s/rest\"", vars.ProjectOpenSourceURL)
 
-	return util.GenFile(util.FileGenConfig{
+	return utils.GenFile(utils.FileGenConfig{
 		Dir:             dir,
 		Subdir:          configDir,
 		Filename:        filename + ".go",

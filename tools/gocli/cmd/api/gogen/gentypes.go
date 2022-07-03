@@ -10,8 +10,8 @@ import (
 
 	"github.com/cocoup/go-smart/tools/gocli/cmd/api/spec"
 	"github.com/cocoup/go-smart/tools/gocli/cmd/config"
-	"github.com/cocoup/go-smart/tools/gocli/cmd/util"
-	"github.com/cocoup/go-smart/tools/gocli/util/format"
+	"github.com/cocoup/go-smart/tools/gocli/cmd/utils"
+	"github.com/cocoup/go-smart/tools/gocli/utils/format"
 )
 
 const typesFile = "types"
@@ -30,7 +30,7 @@ func BuildTypes(types []spec.Type) (string, error) {
 			builder.WriteString("\n\n")
 		}
 		if err := writeType(&builder, tp); err != nil {
-			return "", util.WrapErr(err, "Type "+tp.Name()+" generate error")
+			return "", utils.WrapErr(err, "Type "+tp.Name()+" generate error")
 		}
 	}
 
@@ -52,7 +52,7 @@ func genTypes(dir string, cfg *config.Config, api *spec.ApiSpec) error {
 	filename := path.Join(dir, typesDir, typeFilename)
 	os.Remove(filename)
 
-	return util.GenFile(util.FileGenConfig{
+	return utils.GenFile(utils.FileGenConfig{
 		Dir:             dir,
 		Subdir:          typesDir,
 		Filename:        typeFilename,

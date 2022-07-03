@@ -15,9 +15,9 @@ import (
 
 	"github.com/cocoup/go-smart/tools/gocli/cmd/api/spec"
 	"github.com/cocoup/go-smart/tools/gocli/cmd/config"
-	"github.com/cocoup/go-smart/tools/gocli/cmd/util"
-	"github.com/cocoup/go-smart/tools/gocli/util/format"
-	"github.com/cocoup/go-smart/tools/gocli/util/pathx"
+	"github.com/cocoup/go-smart/tools/gocli/cmd/utils"
+	"github.com/cocoup/go-smart/tools/gocli/utils/format"
+	"github.com/cocoup/go-smart/tools/gocli/utils/pathx"
 	"github.com/cocoup/go-smart/tools/gocli/vars"
 )
 
@@ -82,6 +82,7 @@ func genRoutes(dir, rootPkg string, cfg *config.Config, api *spec.ApiSpec) error
 		}
 
 		group := g.group
+		group = strings.TrimRight(group, "/")
 		if len(g.prefix) > 0 {
 			group = fmt.Sprintf("%s/%s", g.prefix, group)
 		}
@@ -90,7 +91,7 @@ func genRoutes(dir, rootPkg string, cfg *config.Config, api *spec.ApiSpec) error
 		builder.WriteString(fmt.Sprintf("\tgroup := rootGroup.Group(\"%s\")\n", group))
 		if g.jwtEnabled && !jwtEnabled {
 			jwtEnabled = g.jwtEnabled
-			builder.WriteString(fmt.Sprintf("\tgroup.Use(restMid.JWTAuth(server.Conf.JWT))\n"))
+			builder.WriteString(fmt.Sprintf("\tgroup.Use(restMid.JWTAuth(server.Conf.JWT.Secret))\n"))
 		}
 		if len(g.middlewares) > 0 {
 			for _, m := range g.middlewares {
@@ -117,7 +118,7 @@ func genRoutes(dir, rootPkg string, cfg *config.Config, api *spec.ApiSpec) error
 	filename := path.Join(dir, routeDir, routeFilename)
 	err = os.Remove(filename)
 
-	return util.GenFile(util.FileGenConfig{
+	return utils.GenFile(utils.FileGenConfig{
 		Dir:             dir,
 		Subdir:          routeDir,
 		Filename:        routeFilename,
