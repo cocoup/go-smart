@@ -21,3 +21,4 @@ tools/go-smart
 
 temp
 gocli
+!gocli/
