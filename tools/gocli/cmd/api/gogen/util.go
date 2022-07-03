@@ -2,13 +2,13 @@ package gogen
 
 import (
 	"fmt"
-	"github.com/cocoup/go-smart/tools/gocli/cmd/api/utils"
 	"io"
 	"strings"
 
 	"github.com/zeromicro/go-zero/core/collection"
 
 	"github.com/cocoup/go-smart/tools/gocli/cmd/api/spec"
+	"github.com/cocoup/go-smart/tools/gocli/cmd/api/utils"
 )
 
 func writeProperty(writer io.Writer, name, tag, comment string, tp spec.Type, indent int) error {
