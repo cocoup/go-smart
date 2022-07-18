@@ -6,7 +6,7 @@ import (
 )
 
 // BuildVersion is the version of go-smart.
-const BuildVersion = "1.0.5"
+const BuildVersion = "1.0.6"
 
 var tag = map[string]int{"pre-alpha": 0, "alpha": 1, "pre-bata": 2, "beta": 3, "released": 4, "": 5}
 
