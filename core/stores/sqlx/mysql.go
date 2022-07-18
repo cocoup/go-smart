@@ -55,11 +55,31 @@ type sqlConn struct {
 	db *gorm.DB
 }
 
+const (
+	DEFALUT_DB_OPTION      = "charset=utf8mb4&parseTime=True&loc=Local"
+	DEFALUT_MAX_IDLE_CONNS = 10
+	DEFAULT_MAX_OPEN_CONNS = 100
+	DEFAULT_LOG_MODE       = "Info"
+)
+
 func NewConn(conf SqlConf) (SqlConn, error) {
 	sqlConf := mysql.Config{
 		DSN:                       conf.DNS(), // DSN data source name
 		DefaultStringSize:         255,        // string 类型字段的默认长度
 		SkipInitializeWithVersion: false,      // 根据版本自动配置
+	}
+
+	if len(conf.Option) <= 0 {
+		conf.Option = DEFALUT_DB_OPTION
+	}
+	if conf.MaxIdleConns == 0 {
+		conf.MaxIdleConns = DEFALUT_MAX_IDLE_CONNS
+	}
+	if conf.MaxOpenConns == 0 {
+		conf.MaxOpenConns = DEFAULT_MAX_OPEN_CONNS
+	}
+	if len(conf.LogMode) <= 0 {
+		conf.LogMode = DEFAULT_LOG_MODE
 	}
 
 	gormDB, err := gorm.Open(mysql.New(sqlConf), gormConfig(conf))
