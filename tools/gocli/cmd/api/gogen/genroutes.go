@@ -101,7 +101,8 @@ func genRoutes(dir, rootPkg string, cfg *config.Config, api *spec.ApiSpec) error
 		builder.WriteString("\n")
 		for _, route := range g.routes {
 			handler := strings.TrimSuffix(route.handler, "Handler")
-			path := strings.TrimRight(route.path, "/")
+			path := strings.TrimPrefix(route.path, "/"+g.group)
+			path = strings.TrimLeft(strings.TrimRight(path, "/"), "/")
 			builder.WriteString(fmt.Sprintf("\tgroup.%s(\"%s\", %s.%s(svcCtx))\n",
 				route.method, path, g.group, handler))
 		}

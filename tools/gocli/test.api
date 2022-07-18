@@ -1,6 +1,6 @@
 syntax = "v1"
 
-info (
+info(
     author : "leo"
     data: "2022-06-26"
     desc: "测试api"
@@ -32,6 +32,15 @@ service user-center {
 
     @handler updateUser
     post / (UserReq)
+
+    @handler testUser
+    post /user/test (UserReq)
+
+    @handler testUser2
+    post /usertest (UserReq)
+
+    @handler testUser3
+    post /user (UserReq)
 }
 
 @server(
@@ -66,12 +75,12 @@ service user-center {
 /* -------------- */
 type (
     Order {
-        Desc string     `json:"desc"`
-        Price float32   `json:"price"`
+        Desc string `json:"desc"`
+        Price float32 `json:"price"`
     }
     OrderReq {
-        Channel string  `json:"channel"`
-        PID string      `json:"pid"`
+        Channel string `json:"channel"`
+        PID string `json:"pid"`
     }
     OrderResp {
         OrderInfo Order `json:"orderInfo"`
