@@ -14,8 +14,8 @@ func {{.handler}}(svcCtx *service.Context) gin.HandlerFunc {
             return
         }
 
-        {{end}}service := {{.pkg}}.New{{.entity}}Service(ctx, svcCtx)
-        {{if .hasResp}}resp, {{end}}err := service.{{.call}}({{if .hasRequest}}&req{{end}})
+        {{end}}svc := {{.pkg}}.New{{.entity}}Service(ctx, svcCtx)
+        {{if .hasResp}}resp, {{end}}err := svc.{{.call}}({{if .hasRequest}}&req{{end}})
         result.HttpResult(ctx, {{if .hasResp}}resp{{else}}nil{{end}}, err)
     }
 }

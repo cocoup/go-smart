@@ -51,8 +51,9 @@ func (s *sqlModel) GetColumns(table string) (*common.Table, error) {
 				COLUMN_DEFAULT,
 				IS_NULLABLE,
 				ORDINAL_POSITION 
-				from INFORMATION_SCHEMA.COLUMNS 
+				FROM INFORMATION_SCHEMA.COLUMNS 
 				WHERE TABLE_SCHEMA = ? and TABLE_NAME = ? 
+ 				ORDER BY ORDINAL_POSITION
 				`
 	var columns []common.Column
 	err := s.db.Raw(query, s.dbName, table).Scan(&columns).Error

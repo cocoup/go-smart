@@ -23,9 +23,9 @@ func OrderOption(order string) Option {
 	}
 }
 
-func PageOption(info PageInfo) Option {
+func PageOption(page, pageSize int) Option {
 	return func(db *gorm.DB) error {
-		return db.Limit(info.PageSize).Offset((info.Page - 1) * info.PageSize).Error
+		return db.Limit(pageSize).Offset((page - 1) * pageSize).Error
 	}
 }
 
@@ -107,7 +107,7 @@ func (s *sqlConn) Raw(sql string, values ...interface{}) *gorm.DB {
 }
 
 func (s *sqlConn) RawCtx(ctx context.Context, sql string, values ...interface{}) *gorm.DB {
-	return s.db.Exec(sql, values...)
+	return s.db.Raw(sql, values...)
 }
 
 func (s *sqlConn) Insert(val interface{}) error {

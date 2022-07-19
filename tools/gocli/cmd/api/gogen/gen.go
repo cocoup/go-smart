@@ -66,6 +66,7 @@ func GenProcjec(apiFile, outDir, style string) error {
 	logx.Must(genHandlers(outDir, rootPkg, cfg, api))
 	logx.Must(genServices(outDir, rootPkg, cfg, api))
 	logx.Must(genMiddleware(outDir, cfg, api))
+	logx.Must(genMake(outDir, api))
 
 	fmt.Println(aurora.Green("Done."))
 

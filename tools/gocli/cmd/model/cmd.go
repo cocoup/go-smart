@@ -25,6 +25,7 @@ func init() {
 	mysqlCmd.Flags().BoolVarP(&mysql.UseCache, "cache", "c", false, "Generate code with cache [optional]")
 	mysqlCmd.Flags().StringVarP(&mysql.OutDir, "out", "o", "./model", "The target dir")
 	mysqlCmd.Flags().StringVarP(&mysql.CodeStyle, "style", "s", config.DefaultFormat, "The file naming format, see [https://github.com/zeromicro/go-zero/tree/master/tools/goctl/config/readme.md]")
+	mysqlCmd.Flags().StringVarP(&mysql.JsonStyle, "json", "j", "goZero", "The model json name format.")
 
 	Cmd.AddCommand(mysqlCmd)
 }

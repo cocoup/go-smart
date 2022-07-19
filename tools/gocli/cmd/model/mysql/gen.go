@@ -34,6 +34,7 @@ var (
 	CodeStyle string
 	Tables    string
 	UseCache  bool
+	JsonStyle string //json名称格式
 )
 
 func DoCmd(_ *cobra.Command, _ []string) error {
@@ -107,7 +108,18 @@ func genTableModels(dir, pkg string, cfg *config.Config, pattern common.Pattern)
 		}
 	}
 
+	fmt.Println(aurora.Green("Done."))
 	return nil
+}
+
+func jsonName(s string) string {
+	name, _ := format.NamingFormat(JsonStyle, s)
+	return name
+}
+
+func gormName(s string) string {
+	name, _ := format.NamingFormat("go_zero", s)
+	return name
 }
 
 func genModel(dir, pkg string, cfg *config.Config, tableData *common.Table) error {
@@ -143,7 +155,10 @@ func genModel(dir, pkg string, cfg *config.Config, tableData *common.Table) erro
 		}
 	}
 
-	t := template.Must(template.New(modelTemplateFile).Parse(text))
+	t := template.Must(template.New(modelTemplateFile).Funcs(template.FuncMap{
+		"jsonName": jsonName,
+		"gormName": gormName,
+	}).Parse(text))
 	buffer := new(bytes.Buffer)
 	err = t.Execute(buffer, map[string]interface{}{
 		"package":    pkg,
@@ -166,7 +181,7 @@ func getTableFields(table *common.Table) ([]common.Field, bool, error) {
 	var fields = make([]common.Field, len(table.Columns))
 	var hasId bool
 	var hasTime bool
-	for _, column := range table.Columns {
+	for idx, column := range table.Columns {
 		dt, err := DB2Go(column.DataType, false)
 		if err != nil {
 			return nil, hasTime, err
@@ -187,7 +202,7 @@ func getTableFields(table *common.Table) ([]common.Field, bool, error) {
 			DataType: dt,
 			Comment:  column.Comment,
 		}
-		fields = append(fields, field)
+		fields[idx] = field
 	}
 	if !hasId {
 		return nil, hasTime, errors.New(fmt.Sprintf("%s missing id field", table.Table))

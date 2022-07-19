@@ -12,6 +12,7 @@ const (
 	serviceTemplateFile              = "service.tpl"
 	servicesImplTemplateFile         = "service-impl.tpl"
 	etcTemplateFile                  = "etc.tpl"
+	makefileTemplateFile             = "makefile.tpl"
 	handlerTemplateFile              = "handler.tpl"
 	handlersAdditionTemplateFile     = "handler-addition.tpl"
 	mainTemplateFile                 = "main.tpl"

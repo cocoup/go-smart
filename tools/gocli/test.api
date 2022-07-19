@@ -70,6 +70,12 @@ type (
 service user-center {
     @handler netTime
     post /nettime (NetTimeReq) returns (NetTimeResp)
+
+    @handler testUser4
+    post /user (UserReq)
+
+//    @handler testUser7
+//    post /user (UserReq)
 }
 
 /* -------------- */

@@ -24,7 +24,7 @@ const (
 func JWTAuth(secret string) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		tok, err := token.ParseToken(ctx.Request, secret)
-		if err != nil && tok != nil {
+		if err != nil {
 			ctx.AbortWithStatus(http.StatusUnauthorized)
 			return
 		}

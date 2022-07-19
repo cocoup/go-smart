@@ -20,7 +20,7 @@ type (
 		Insert(data *{{.model}}) error
 		FindOne(id int64) (*{{.model}}, error)
 		FindOneByFilter(filter map[string]interface{}, opts ...sqlx.Option) (*{{.model}}, error)
-		FindByFilter(filter map[string]interface{}, opts ...sqlx.Option)(*[]{{.model}}, error)
+		FindByFilter(filter map[string]interface{}, opts ...sqlx.Option)([]*{{.model}}, error)
 		Save(*{{.model}}) *gorm.DB
 		Updates(*{{.model}}) *gorm.DB
 		UpdateByFilter(filter map[string]interface{}, upVal map[string]interface{}) *gorm.DB
@@ -36,7 +36,7 @@ type (
 	// User defines an data structure for mysql
 	{{.model}} struct {
 	{{- range .fields }}
-	{{.Name }}  {{.DataType}} {{if ne "" .Comment}} //{{.Comment}}{{end}}
+	{{.Name }} {{.DataType}} `json:"{{jsonName .Name}}"` {{if ne "" .Comment}} //{{.Comment}}{{end}}
 	{{- end }}
 	}
 )
@@ -65,9 +65,9 @@ func (d *default{{.model}}Model) FindOneByFilter(filter map[string]interface{}, 
 	return
 }
 
-func (d *default{{.model}}Model) FindByFilter(filter map[string]interface{}, opts ...sqlx.Option) (datas *[]{{.model}}, err error) {
-    datas  = &[]{{.model}}{}
-	err = d.conn.FindByFilter(filter, datas, opts...)
+func (d *default{{.model}}Model) FindByFilter(filter map[string]interface{}, opts ...sqlx.Option) (datas []*{{.model}}, err error) {
+    datas = []*{{.model}}{}
+	err = d.conn.FindByFilter(filter, &datas, opts...)
 	return
 }
 

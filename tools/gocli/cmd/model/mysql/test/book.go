@@ -11,7 +11,7 @@ type (
 		Insert(data *Book) error
 		FindOne(id int64) (*Book, error)
 		FindOneByFilter(filter map[string]interface{}, opts ...sqlx.Option) (*Book, error)
-		FindByFilter(filter map[string]interface{}, opts ...sqlx.Option) (*[]Book, error)
+		FindByFilter(filter map[string]interface{}, opts ...sqlx.Option) ([]*Book, error)
 		Save(*Book) *gorm.DB
 		Updates(*Book) *gorm.DB
 		UpdateByFilter(filter map[string]interface{}, upVal map[string]interface{}) *gorm.DB
@@ -55,9 +55,9 @@ func (d *defaultBookModel) FindOneByFilter(filter map[string]interface{}, opts .
 	return
 }
 
-func (d *defaultBookModel) FindByFilter(filter map[string]interface{}, opts ...sqlx.Option) (datas *[]Book, err error) {
-	datas = &[]Book{}
-	err = d.conn.FindByFilter(filter, datas, opts...)
+func (d *defaultBookModel) FindByFilter(filter map[string]interface{}, opts ...sqlx.Option) (datas []*Book, err error) {
+	datas = []*Book{}
+	err = d.conn.FindByFilter(filter, &datas, opts...)
 	return
 }
 
