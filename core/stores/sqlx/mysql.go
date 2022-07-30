@@ -130,7 +130,7 @@ func (s *sqlConn) FindOneByFilter(filter map[string]interface{}, out interface{}
 			return err
 		}
 	}
-	return db.Limit(1).Find(out).Error
+	return db.Limit(1).First(out).Error
 }
 
 func (s *sqlConn) FindByFilter(filter map[string]interface{}, out interface{}, opts ...Option) error {
