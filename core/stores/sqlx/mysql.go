@@ -63,12 +63,6 @@ const (
 )
 
 func NewConn(conf SqlConf) (SqlConn, error) {
-	sqlConf := mysql.Config{
-		DSN:                       conf.DNS(), // DSN data source name
-		DefaultStringSize:         255,        // string 类型字段的默认长度
-		SkipInitializeWithVersion: false,      // 根据版本自动配置
-	}
-
 	if len(conf.Option) <= 0 {
 		conf.Option = DEFALUT_DB_OPTION
 	}
@@ -82,6 +76,12 @@ func NewConn(conf SqlConf) (SqlConn, error) {
 		conf.LogMode = DEFAULT_LOG_MODE
 	}
 
+	sqlConf := mysql.Config{
+		DSN:                       conf.DNS(), // DSN data source name
+		DefaultStringSize:         255,        // string 类型字段的默认长度
+		SkipInitializeWithVersion: false,      // 根据版本自动配置
+	}
+	
 	gormDB, err := gorm.Open(mysql.New(sqlConf), gormConfig(conf))
 	if err != nil {
 		return nil, err

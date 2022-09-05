@@ -95,5 +95,5 @@ service example-api {
     post /api/foo3/:id returns (SingleExample2)
 
     @handler fooHandler4
-    get /api/foo4
+    get /api/*foo4
 }

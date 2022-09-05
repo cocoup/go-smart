@@ -15,7 +15,7 @@ type SqlConf struct {
 	DB           string `yaml:"db"`             // 数据库名
 	Name         string `yaml:"username"`       // 数据库用户名
 	Password     string `yaml:"password"`       // 数据库密码
-	Option       string `yaml:"Option"`         // 高级配置
+	Option       string `yaml:"option"`         // 高级配置
 	MaxIdleConns int    `yaml:"max-idle-conns"` // 空闲中的最大连接数
 	MaxOpenConns int    `yaml:"max-open-conns"` // 打开到数据库的最大连接数
 	LogMode      string `yaml:"log-mode"`       // 是否开启Gorm全局日志

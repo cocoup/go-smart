@@ -103,5 +103,5 @@ service user-center {
     get /order (OrderReq) returns (OrderResp)
 
     @handler checkOrder
-    post /check returns (OrderResp)
+    post /*check returns (OrderResp)
 }
