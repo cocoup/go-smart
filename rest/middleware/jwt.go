@@ -51,7 +51,7 @@ func JWTAuth(secret string) gin.HandlerFunc {
 			case jwtAudience, jwtExpire, jwtId, jwtIssueAt, jwtIssuer, jwtNotBefore, jwtSubject:
 				// ignore the standard claims
 			default:
-				reqCtx = context.WithValue(ctx, k, v)
+				reqCtx = context.WithValue(reqCtx, k, v)
 			}
 		}
 
