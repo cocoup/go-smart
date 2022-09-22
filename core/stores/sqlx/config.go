@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-type SqlConf struct {
+type Config struct {
 	IP           string `yaml:"ip"`             // 服务器地址
 	Port         string `yaml:"port"`           // 端口
 	DB           string `yaml:"db"`             // 数据库名
@@ -21,11 +21,11 @@ type SqlConf struct {
 	LogMode      string `yaml:"log-mode"`       // 是否开启Gorm全局日志
 }
 
-func (m *SqlConf) DNS() string {
+func (m *Config) DNS() string {
 	return m.Name + ":" + m.Password + "@tcp(" + m.IP + ":" + m.Port + ")/" + m.DB + "?" + m.Option
 }
 
-func gormConfig(conf SqlConf) *gorm.Config {
+func gormConfig(conf Config) *gorm.Config {
 	config := &gorm.Config{
 		DisableForeignKeyConstraintWhenMigrating: true,
 		NamingStrategy: schema.NamingStrategy{

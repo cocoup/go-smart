@@ -2,6 +2,7 @@ package rest
 
 import (
 	"github.com/cocoup/go-smart/core/prometheus"
+	"github.com/cocoup/go-smart/core/stores/redis"
 	"github.com/cocoup/go-smart/core/stores/sqlx"
 	"github.com/cocoup/go-smart/core/trace"
 )
@@ -11,7 +12,8 @@ type ServiceConf struct {
 	Mode       string            `yaml:"mode"`
 	MetricsUrl string            `yaml:"metrics-url"`
 	JWT        JWTConfig         `yaml:"jwt"`
-	SqlConf    sqlx.SqlConf      `yaml:"sql"`
+	SqlConf    sqlx.Config       `yaml:"sql"`
+	RedisConf  redis.Config      `yaml:"redis"`
 	Prometheus prometheus.Config `yaml:"prometheus"`
 	Trace      trace.Config      `yaml:"trace"`
 

@@ -62,7 +62,7 @@ const (
 	DEFAULT_LOG_MODE       = "Info"
 )
 
-func NewConn(conf SqlConf) (SqlConn, error) {
+func NewConn(conf Config) (SqlConn, error) {
 	if len(conf.Option) <= 0 {
 		conf.Option = DEFALUT_DB_OPTION
 	}
@@ -81,7 +81,7 @@ func NewConn(conf SqlConf) (SqlConn, error) {
 		DefaultStringSize:         255,        // string 类型字段的默认长度
 		SkipInitializeWithVersion: false,      // 根据版本自动配置
 	}
-	
+
 	gormDB, err := gorm.Open(mysql.New(sqlConf), gormConfig(conf))
 	if err != nil {
 		return nil, err

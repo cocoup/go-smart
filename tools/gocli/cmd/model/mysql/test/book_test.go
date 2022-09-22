@@ -8,7 +8,7 @@ import (
 )
 
 func testConn() sqlx.SqlConn {
-	conf := sqlx.SqlConf{
+	conf := sqlx.Config{
 		IP:           "127.0.0.1",
 		Port:         "3306",
 		DB:           "my_db",

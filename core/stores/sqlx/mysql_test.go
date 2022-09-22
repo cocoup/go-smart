@@ -35,7 +35,7 @@ type TableTest struct {
 }
 
 func testConn() SqlConn {
-	conf := SqlConf{
+	conf := Config{
 		IP:           "127.0.0.1",
 		Port:         "3306",
 		DB:           "my_db",
@@ -201,10 +201,7 @@ func Test_sqlConn_FindByFilter(t *testing.T) {
 				filter: map[string]interface{}{},
 				out:    &[]ExchangeCode{},
 				opts: []Option{
-					PageOption(PageInfo{
-						Page:     1,
-						PageSize: 2,
-					}),
+					PageOption(1, 2),
 					OrderOption("id asc"),
 				},
 			},
@@ -215,10 +212,7 @@ func Test_sqlConn_FindByFilter(t *testing.T) {
 				filter: map[string]interface{}{},
 				out:    &[]ExchangeCode{},
 				opts: []Option{
-					PageOption(PageInfo{
-						Page:     1,
-						PageSize: 2,
-					}),
+					PageOption(1, 2),
 					OrderOption("id desc"),
 				},
 			},
@@ -231,10 +225,7 @@ func Test_sqlConn_FindByFilter(t *testing.T) {
 				},
 				out: &[]ExchangeCode{},
 				opts: []Option{
-					PageOption(PageInfo{
-						Page:     1,
-						PageSize: 2,
-					}),
+					PageOption(1, 2),
 					OrderOption("id desc"),
 				},
 			},
