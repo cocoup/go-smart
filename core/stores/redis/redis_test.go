@@ -7,10 +7,10 @@ import (
 
 func testConn() RedisConn {
 	conf := Config{
-		Addrs:      []string{":26380", "26381"},
-		Password:   "123456",
-		DB:         0,
-		MasterName: "mymaster",
+		Addrs:    []string{":26380", "26381"},
+		Password: "123456",
+		DB:       0,
+		Master:   "mymaster",
 	}
 	return NewConn(conf, Sentinel())
 }
@@ -74,6 +74,32 @@ func Test_redisConn_Eval(t *testing.T) {
 			}
 			if !reflect.DeepEqual(gotVal, tt.wantVal) {
 				t.Errorf("Eval() gotVal = %v, want %v", gotVal, tt.wantVal)
+			}
+		})
+	}
+}
+
+func Test_redisConn_Ping(t *testing.T) {
+	tests := []struct {
+		name    string
+		wantVal string
+		wantErr bool
+	}{
+		{
+			name:    "test1",
+			wantVal: "PONG",
+		},
+	}
+	r := testConn()
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			gotVal, err := r.Ping()
+			if (err != nil) != tt.wantErr {
+				t.Errorf("Ping() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if gotVal != tt.wantVal {
+				t.Errorf("Ping() gotVal = %v, want %v", gotVal, tt.wantVal)
 			}
 		})
 	}

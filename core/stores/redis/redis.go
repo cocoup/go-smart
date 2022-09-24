@@ -46,7 +46,7 @@ func Single() clientMode {
 func Sentinel() clientMode {
 	return func(conf Config) Client {
 		return redis.NewFailoverClient(&redis.FailoverOptions{
-			MasterName:    conf.MasterName,
+			MasterName:    conf.Master,
 			SentinelAddrs: conf.Addrs,
 			Password:      conf.Password,
 		})
@@ -63,6 +63,8 @@ func Cluster() clientMode {
 }
 
 type RedisConn interface {
+	Ping() (string, error)
+
 	// Set args: 0->mode
 	Set(key string, val interface{}, args ...int) error
 	// SetNX args: 0->mode
@@ -209,6 +211,14 @@ func toStrings(vals []interface{}) []string {
 type redisConn struct {
 	client Client
 	brk    breaker.Breaker
+}
+
+func (r redisConn) Ping() (val string, err error) {
+	err = r.brk.DoWithAcceptable(func() error {
+		val, err = r.client.Ping(context.Background()).Result()
+		return err
+	}, acceptable)
+	return
 }
 
 func (r redisConn) Set(key string, val interface{}, args ...int) (err error) {
