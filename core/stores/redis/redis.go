@@ -153,6 +153,10 @@ type RedisConn interface {
 	Expire(key string, expiration time.Duration) error
 	TTL(key string) (int, error)
 	Persist(key string) (bool, error)
+
+	Eval(script string, keys []string, args ...interface{}) (interface{}, error)
+	EvalSha(sha string, keys []string, args ...interface{}) (interface{}, error)
+	ScriptLoad(script string) (string, error)
 }
 
 func toPairs(vals []redis.Z) []Pair {
@@ -936,4 +940,24 @@ func (r redisConn) Persist(key string) (b bool, err error) {
 		return err
 	}, acceptable)
 	return
+}
+
+func (r redisConn) Eval(script string, keys []string, args ...interface{}) (val interface{}, err error) {
+	err = r.brk.DoWithAcceptable(func() error {
+		val, err = r.client.Eval(context.Background(), script, keys, args...).Result()
+		return err
+	}, acceptable)
+	return
+}
+
+func (r redisConn) EvalSha(sha string, keys []string, args ...interface{}) (val interface{}, err error) {
+	err = r.brk.DoWithAcceptable(func() error {
+		val, err = r.client.EvalSha(context.Background(), sha, keys, args...).Result()
+		return err
+	}, acceptable)
+	return
+}
+
+func (r redisConn) ScriptLoad(script string) (string, error) {
+	return r.client.ScriptLoad(context.Background(), script).Result()
 }
