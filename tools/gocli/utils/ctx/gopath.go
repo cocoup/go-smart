@@ -2,7 +2,7 @@ package ctx
 
 import (
 	"errors"
-	pathx2 "github.com/cocoup/go-smart/tools/gocli/utils/pathx"
+	"github.com/cocoup/go-smart/tools/gocli/utils/pathx"
 	"go/build"
 	"os"
 	"path/filepath"
@@ -20,20 +20,20 @@ func projectFromGoPath(workDir string) (*ProjectContext, error) {
 		return nil, err
 	}
 
-	workDir, err := pathx2.ReadLink(workDir)
+	workDir, err := pathx.ReadLink(workDir)
 	if err != nil {
 		return nil, err
 	}
 
 	buildContext := build.Default
 	goPath := buildContext.GOPATH
-	goPath, err = pathx2.ReadLink(goPath)
+	goPath, err = pathx.ReadLink(goPath)
 	if err != nil {
 		return nil, err
 	}
 
 	goSrc := filepath.Join(goPath, "src")
-	if !pathx2.FileExists(goSrc) {
+	if !pathx.FileExists(goSrc) {
 		return nil, errModuleCheck
 	}
 

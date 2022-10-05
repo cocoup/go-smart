@@ -1,7 +1,7 @@
 package test
 
 import (
-	ast "github.com/cocoup/go-smart/tools/gocli/cmd/api/parser/g4/ast"
+	"github.com/cocoup/go-smart/tools/gocli/cmd/api/parser/g4/ast"
 	"github.com/cocoup/go-smart/tools/gocli/cmd/api/parser/g4/gen/api"
 	"testing"
 

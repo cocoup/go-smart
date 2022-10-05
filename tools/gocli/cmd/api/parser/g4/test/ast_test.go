@@ -2,7 +2,7 @@ package test
 
 import (
 	_ "embed"
-	ast2 "github.com/cocoup/go-smart/tools/gocli/cmd/api/parser/g4/ast"
+	"github.com/cocoup/go-smart/tools/gocli/cmd/api/parser/g4/ast"
 	"github.com/cocoup/go-smart/tools/gocli/cmd/api/parser/g4/gen/api"
 	"testing"
 
@@ -12,387 +12,387 @@ import (
 //go:embed apis/test.api
 var testApi string
 
-var parser = ast2.NewParser(ast2.WithParserPrefix("test.api"), ast2.WithParserDebug())
+var parser = ast.NewParser(ast.WithParserPrefix("test.api"), ast.WithParserDebug())
 
 func TestApi(t *testing.T) {
-	fn := func(p *api.ApiParserParser, visitor *ast2.ApiVisitor) interface{} {
+	fn := func(p *api.ApiParserParser, visitor *ast.ApiVisitor) interface{} {
 		return p.Api().Accept(visitor)
 	}
 
 	v, err := parser.Accept(fn, testApi)
 	assert.Nil(t, err)
-	api := v.(*ast2.Api)
-	body := &ast2.Body{
-		Lp:   ast2.NewTextExpr("("),
-		Rp:   ast2.NewTextExpr(")"),
-		Name: &ast2.Literal{Literal: ast2.NewTextExpr("FooBar")},
+	api := v.(*ast.Api)
+	body := &ast.Body{
+		Lp:   ast.NewTextExpr("("),
+		Rp:   ast.NewTextExpr(")"),
+		Name: &ast.Literal{Literal: ast.NewTextExpr("FooBar")},
 	}
 
-	returns := ast2.NewTextExpr("returns")
-	assert.True(t, api.Equal(&ast2.Api{
-		Syntax: &ast2.SyntaxExpr{
-			Syntax:  ast2.NewTextExpr("syntax"),
-			Assign:  ast2.NewTextExpr("="),
-			Version: ast2.NewTextExpr(`"v1"`),
-			DocExpr: []ast2.Expr{
-				ast2.NewTextExpr("// syntax doc"),
+	returns := ast.NewTextExpr("returns")
+	assert.True(t, api.Equal(&ast.Api{
+		Syntax: &ast.SyntaxExpr{
+			Syntax:  ast.NewTextExpr("syntax"),
+			Assign:  ast.NewTextExpr("="),
+			Version: ast.NewTextExpr(`"v1"`),
+			DocExpr: []ast.Expr{
+				ast.NewTextExpr("// syntax doc"),
 			},
-			CommentExpr: ast2.NewTextExpr("// syntax comment"),
+			CommentExpr: ast.NewTextExpr("// syntax comment"),
 		},
-		Import: []*ast2.ImportExpr{
+		Import: []*ast.ImportExpr{
 			{
-				Import: ast2.NewTextExpr("import"),
-				Value:  ast2.NewTextExpr(`"foo.api"`),
-				DocExpr: []ast2.Expr{
-					ast2.NewTextExpr("// import doc"),
+				Import: ast.NewTextExpr("import"),
+				Value:  ast.NewTextExpr(`"foo.api"`),
+				DocExpr: []ast.Expr{
+					ast.NewTextExpr("// import doc"),
 				},
-				CommentExpr: ast2.NewTextExpr("// import comment"),
+				CommentExpr: ast.NewTextExpr("// import comment"),
 			},
 			{
-				Import: ast2.NewTextExpr("import"),
-				Value:  ast2.NewTextExpr(`"bar.api"`),
-				DocExpr: []ast2.Expr{
-					ast2.NewTextExpr("// import group doc"),
+				Import: ast.NewTextExpr("import"),
+				Value:  ast.NewTextExpr(`"bar.api"`),
+				DocExpr: []ast.Expr{
+					ast.NewTextExpr("// import group doc"),
 				},
-				CommentExpr: ast2.NewTextExpr("// import group comment"),
+				CommentExpr: ast.NewTextExpr("// import group comment"),
 			},
 		},
-		Info: &ast2.InfoExpr{
-			Info: ast2.NewTextExpr("info"),
-			Lp:   ast2.NewTextExpr("("),
-			Rp:   ast2.NewTextExpr(")"),
-			Kvs: []*ast2.KvExpr{
+		Info: &ast.InfoExpr{
+			Info: ast.NewTextExpr("info"),
+			Lp:   ast.NewTextExpr("("),
+			Rp:   ast.NewTextExpr(")"),
+			Kvs: []*ast.KvExpr{
 				{
-					Key:   ast2.NewTextExpr("author"),
-					Value: ast2.NewTextExpr(`"songmeizi"`),
-					DocExpr: []ast2.Expr{
-						ast2.NewTextExpr("// author doc"),
+					Key:   ast.NewTextExpr("author"),
+					Value: ast.NewTextExpr(`"songmeizi"`),
+					DocExpr: []ast.Expr{
+						ast.NewTextExpr("// author doc"),
 					},
-					CommentExpr: ast2.NewTextExpr("// author comment"),
+					CommentExpr: ast.NewTextExpr("// author comment"),
 				},
 				{
-					Key:   ast2.NewTextExpr("date"),
-					Value: ast2.NewTextExpr(`2020-01-04`),
-					DocExpr: []ast2.Expr{
-						ast2.NewTextExpr("// date doc"),
+					Key:   ast.NewTextExpr("date"),
+					Value: ast.NewTextExpr(`2020-01-04`),
+					DocExpr: []ast.Expr{
+						ast.NewTextExpr("// date doc"),
 					},
-					CommentExpr: ast2.NewTextExpr("// date comment"),
+					CommentExpr: ast.NewTextExpr("// date comment"),
 				},
 				{
-					Key: ast2.NewTextExpr("desc"),
-					Value: ast2.NewTextExpr(`"break line
+					Key: ast.NewTextExpr("desc"),
+					Value: ast.NewTextExpr(`"break line
     desc"`),
-					DocExpr: []ast2.Expr{
-						ast2.NewTextExpr("// desc doc"),
+					DocExpr: []ast.Expr{
+						ast.NewTextExpr("// desc doc"),
 					},
-					CommentExpr: ast2.NewTextExpr("// desc comment"),
+					CommentExpr: ast.NewTextExpr("// desc comment"),
 				},
 			},
 		},
-		Type: []ast2.TypeExpr{
-			&ast2.TypeStruct{
-				Name:   ast2.NewTextExpr("FooBar"),
-				Struct: ast2.NewTextExpr("struct"),
-				LBrace: ast2.NewTextExpr("{"),
-				RBrace: ast2.NewTextExpr("}"),
-				Fields: []*ast2.TypeField{
+		Type: []ast.TypeExpr{
+			&ast.TypeStruct{
+				Name:   ast.NewTextExpr("FooBar"),
+				Struct: ast.NewTextExpr("struct"),
+				LBrace: ast.NewTextExpr("{"),
+				RBrace: ast.NewTextExpr("}"),
+				Fields: []*ast.TypeField{
 					{
-						Name:     ast2.NewTextExpr("Foo"),
-						DataType: &ast2.Literal{Literal: ast2.NewTextExpr("int")},
+						Name:     ast.NewTextExpr("Foo"),
+						DataType: &ast.Literal{Literal: ast.NewTextExpr("int")},
 					},
 				},
 			},
-			&ast2.TypeStruct{
-				Name:   ast2.NewTextExpr("Bar"),
-				LBrace: ast2.NewTextExpr("{"),
-				RBrace: ast2.NewTextExpr("}"),
-				DocExpr: []ast2.Expr{
-					ast2.NewTextExpr("// remove struct"),
+			&ast.TypeStruct{
+				Name:   ast.NewTextExpr("Bar"),
+				LBrace: ast.NewTextExpr("{"),
+				RBrace: ast.NewTextExpr("}"),
+				DocExpr: []ast.Expr{
+					ast.NewTextExpr("// remove struct"),
 				},
-				Fields: []*ast2.TypeField{
+				Fields: []*ast.TypeField{
 					{
-						Name:     ast2.NewTextExpr("VString"),
-						DataType: &ast2.Literal{Literal: ast2.NewTextExpr("string")},
-						Tag:      ast2.NewTextExpr("`json:\"vString\"`"),
-						DocExpr: []ast2.Expr{
-							ast2.NewTextExpr("// vString"),
+						Name:     ast.NewTextExpr("VString"),
+						DataType: &ast.Literal{Literal: ast.NewTextExpr("string")},
+						Tag:      ast.NewTextExpr("`json:\"vString\"`"),
+						DocExpr: []ast.Expr{
+							ast.NewTextExpr("// vString"),
 						},
 					},
 					{
-						Name:     ast2.NewTextExpr("VBool"),
-						DataType: &ast2.Literal{Literal: ast2.NewTextExpr("bool")},
-						Tag:      ast2.NewTextExpr("`json:\"vBool\"`"),
-						DocExpr: []ast2.Expr{
-							ast2.NewTextExpr("// vBool"),
+						Name:     ast.NewTextExpr("VBool"),
+						DataType: &ast.Literal{Literal: ast.NewTextExpr("bool")},
+						Tag:      ast.NewTextExpr("`json:\"vBool\"`"),
+						DocExpr: []ast.Expr{
+							ast.NewTextExpr("// vBool"),
 						},
 					},
 					{
-						Name:     ast2.NewTextExpr("VInt8"),
-						DataType: &ast2.Literal{Literal: ast2.NewTextExpr("int8")},
-						Tag:      ast2.NewTextExpr("`json:\"vInt8\"`"),
-						DocExpr: []ast2.Expr{
-							ast2.NewTextExpr("// vInt8"),
+						Name:     ast.NewTextExpr("VInt8"),
+						DataType: &ast.Literal{Literal: ast.NewTextExpr("int8")},
+						Tag:      ast.NewTextExpr("`json:\"vInt8\"`"),
+						DocExpr: []ast.Expr{
+							ast.NewTextExpr("// vInt8"),
 						},
 					},
 					{
-						Name:     ast2.NewTextExpr("VInt16"),
-						DataType: &ast2.Literal{Literal: ast2.NewTextExpr("int16")},
-						Tag:      ast2.NewTextExpr("`json:\"vInt16\"`"),
-						DocExpr: []ast2.Expr{
-							ast2.NewTextExpr("// vInt16"),
+						Name:     ast.NewTextExpr("VInt16"),
+						DataType: &ast.Literal{Literal: ast.NewTextExpr("int16")},
+						Tag:      ast.NewTextExpr("`json:\"vInt16\"`"),
+						DocExpr: []ast.Expr{
+							ast.NewTextExpr("// vInt16"),
 						},
 					},
 					{
-						Name:     ast2.NewTextExpr("VInt32"),
-						DataType: &ast2.Literal{Literal: ast2.NewTextExpr("int32")},
-						Tag:      ast2.NewTextExpr("`json:\"vInt32\"`"),
-						DocExpr: []ast2.Expr{
-							ast2.NewTextExpr("// vInt32"),
+						Name:     ast.NewTextExpr("VInt32"),
+						DataType: &ast.Literal{Literal: ast.NewTextExpr("int32")},
+						Tag:      ast.NewTextExpr("`json:\"vInt32\"`"),
+						DocExpr: []ast.Expr{
+							ast.NewTextExpr("// vInt32"),
 						},
 					},
 					{
-						Name:     ast2.NewTextExpr("VInt64"),
-						DataType: &ast2.Literal{Literal: ast2.NewTextExpr("int64")},
-						Tag:      ast2.NewTextExpr("`json:\"vInt64\"`"),
-						DocExpr: []ast2.Expr{
-							ast2.NewTextExpr("// vInt64"),
+						Name:     ast.NewTextExpr("VInt64"),
+						DataType: &ast.Literal{Literal: ast.NewTextExpr("int64")},
+						Tag:      ast.NewTextExpr("`json:\"vInt64\"`"),
+						DocExpr: []ast.Expr{
+							ast.NewTextExpr("// vInt64"),
 						},
 					},
 					{
-						Name:     ast2.NewTextExpr("VInt"),
-						DataType: &ast2.Literal{Literal: ast2.NewTextExpr("int")},
-						Tag:      ast2.NewTextExpr("`json:\"vInt\"`"),
-						DocExpr: []ast2.Expr{
-							ast2.NewTextExpr("// vInt"),
+						Name:     ast.NewTextExpr("VInt"),
+						DataType: &ast.Literal{Literal: ast.NewTextExpr("int")},
+						Tag:      ast.NewTextExpr("`json:\"vInt\"`"),
+						DocExpr: []ast.Expr{
+							ast.NewTextExpr("// vInt"),
 						},
 					},
 					{
-						Name:     ast2.NewTextExpr("VUInt8"),
-						DataType: &ast2.Literal{Literal: ast2.NewTextExpr("uint8")},
-						Tag:      ast2.NewTextExpr("`json:\"vUInt8\"`"),
-						DocExpr: []ast2.Expr{
-							ast2.NewTextExpr("// vUInt8"),
+						Name:     ast.NewTextExpr("VUInt8"),
+						DataType: &ast.Literal{Literal: ast.NewTextExpr("uint8")},
+						Tag:      ast.NewTextExpr("`json:\"vUInt8\"`"),
+						DocExpr: []ast.Expr{
+							ast.NewTextExpr("// vUInt8"),
 						},
 					},
 					{
-						Name:     ast2.NewTextExpr("VUInt16"),
-						DataType: &ast2.Literal{Literal: ast2.NewTextExpr("uint16")},
-						Tag:      ast2.NewTextExpr("`json:\"vUInt16\"`"),
-						DocExpr: []ast2.Expr{
-							ast2.NewTextExpr("// vUInt16"),
+						Name:     ast.NewTextExpr("VUInt16"),
+						DataType: &ast.Literal{Literal: ast.NewTextExpr("uint16")},
+						Tag:      ast.NewTextExpr("`json:\"vUInt16\"`"),
+						DocExpr: []ast.Expr{
+							ast.NewTextExpr("// vUInt16"),
 						},
 					},
 					{
-						Name:     ast2.NewTextExpr("VUInt32"),
-						DataType: &ast2.Literal{Literal: ast2.NewTextExpr("uint32")},
-						Tag:      ast2.NewTextExpr("`json:\"vUInt32\"`"),
-						DocExpr: []ast2.Expr{
-							ast2.NewTextExpr("// vUInt32"),
+						Name:     ast.NewTextExpr("VUInt32"),
+						DataType: &ast.Literal{Literal: ast.NewTextExpr("uint32")},
+						Tag:      ast.NewTextExpr("`json:\"vUInt32\"`"),
+						DocExpr: []ast.Expr{
+							ast.NewTextExpr("// vUInt32"),
 						},
 					},
 					{
-						Name:     ast2.NewTextExpr("VUInt64"),
-						DataType: &ast2.Literal{Literal: ast2.NewTextExpr("uint64")},
-						Tag:      ast2.NewTextExpr("`json:\"vUInt64\"`"),
-						DocExpr: []ast2.Expr{
-							ast2.NewTextExpr("// vUInt64"),
+						Name:     ast.NewTextExpr("VUInt64"),
+						DataType: &ast.Literal{Literal: ast.NewTextExpr("uint64")},
+						Tag:      ast.NewTextExpr("`json:\"vUInt64\"`"),
+						DocExpr: []ast.Expr{
+							ast.NewTextExpr("// vUInt64"),
 						},
 					},
 					{
-						Name:     ast2.NewTextExpr("VFloat32"),
-						DataType: &ast2.Literal{Literal: ast2.NewTextExpr("float32")},
-						Tag:      ast2.NewTextExpr("`json:\"vFloat32\"`"),
-						DocExpr: []ast2.Expr{
-							ast2.NewTextExpr("// vFloat32"),
+						Name:     ast.NewTextExpr("VFloat32"),
+						DataType: &ast.Literal{Literal: ast.NewTextExpr("float32")},
+						Tag:      ast.NewTextExpr("`json:\"vFloat32\"`"),
+						DocExpr: []ast.Expr{
+							ast.NewTextExpr("// vFloat32"),
 						},
 					},
 					{
-						Name:     ast2.NewTextExpr("VFloat64"),
-						DataType: &ast2.Literal{Literal: ast2.NewTextExpr("float64")},
-						Tag:      ast2.NewTextExpr("`json:\"vFloat64\"`"),
-						DocExpr: []ast2.Expr{
-							ast2.NewTextExpr("// vFloat64"),
+						Name:     ast.NewTextExpr("VFloat64"),
+						DataType: &ast.Literal{Literal: ast.NewTextExpr("float64")},
+						Tag:      ast.NewTextExpr("`json:\"vFloat64\"`"),
+						DocExpr: []ast.Expr{
+							ast.NewTextExpr("// vFloat64"),
 						},
 					},
 					{
-						Name:     ast2.NewTextExpr("VByte"),
-						DataType: &ast2.Literal{Literal: ast2.NewTextExpr("byte")},
-						Tag:      ast2.NewTextExpr("`json:\"vByte\"`"),
-						DocExpr: []ast2.Expr{
-							ast2.NewTextExpr("// vByte"),
+						Name:     ast.NewTextExpr("VByte"),
+						DataType: &ast.Literal{Literal: ast.NewTextExpr("byte")},
+						Tag:      ast.NewTextExpr("`json:\"vByte\"`"),
+						DocExpr: []ast.Expr{
+							ast.NewTextExpr("// vByte"),
 						},
 					},
 					{
-						Name:     ast2.NewTextExpr("VRune"),
-						DataType: &ast2.Literal{Literal: ast2.NewTextExpr("rune")},
-						Tag:      ast2.NewTextExpr("`json:\"vRune\"`"),
-						DocExpr: []ast2.Expr{
-							ast2.NewTextExpr("// vRune"),
+						Name:     ast.NewTextExpr("VRune"),
+						DataType: &ast.Literal{Literal: ast.NewTextExpr("rune")},
+						Tag:      ast.NewTextExpr("`json:\"vRune\"`"),
+						DocExpr: []ast.Expr{
+							ast.NewTextExpr("// vRune"),
 						},
 					},
 					{
-						Name: ast2.NewTextExpr("VMap"),
-						DataType: &ast2.Map{
-							MapExpr: ast2.NewTextExpr("map[string]int"),
-							Map:     ast2.NewTextExpr("map"),
-							LBrack:  ast2.NewTextExpr("["),
-							RBrack:  ast2.NewTextExpr("]"),
-							Key:     ast2.NewTextExpr("string"),
-							Value:   &ast2.Literal{Literal: ast2.NewTextExpr("int")},
+						Name: ast.NewTextExpr("VMap"),
+						DataType: &ast.Map{
+							MapExpr: ast.NewTextExpr("map[string]int"),
+							Map:     ast.NewTextExpr("map"),
+							LBrack:  ast.NewTextExpr("["),
+							RBrack:  ast.NewTextExpr("]"),
+							Key:     ast.NewTextExpr("string"),
+							Value:   &ast.Literal{Literal: ast.NewTextExpr("int")},
 						},
-						Tag: ast2.NewTextExpr("`json:\"vMap\"`"),
-						DocExpr: []ast2.Expr{
-							ast2.NewTextExpr("// vMap"),
-						},
-					},
-					{
-						Name: ast2.NewTextExpr("VArray"),
-						DataType: &ast2.Array{
-							ArrayExpr: ast2.NewTextExpr("[]int"),
-							LBrack:    ast2.NewTextExpr("["),
-							RBrack:    ast2.NewTextExpr("]"),
-							Literal:   &ast2.Literal{Literal: ast2.NewTextExpr("int")},
-						},
-						Tag: ast2.NewTextExpr("`json:\"vArray\"`"),
-						DocExpr: []ast2.Expr{
-							ast2.NewTextExpr("// vArray"),
+						Tag: ast.NewTextExpr("`json:\"vMap\"`"),
+						DocExpr: []ast.Expr{
+							ast.NewTextExpr("// vMap"),
 						},
 					},
 					{
-						Name:     ast2.NewTextExpr("VStruct"),
-						DataType: &ast2.Literal{Literal: ast2.NewTextExpr("FooBar")},
-						Tag:      ast2.NewTextExpr("`json:\"vStruct\"`"),
-						DocExpr: []ast2.Expr{
-							ast2.NewTextExpr("// vStruct"),
+						Name: ast.NewTextExpr("VArray"),
+						DataType: &ast.Array{
+							ArrayExpr: ast.NewTextExpr("[]int"),
+							LBrack:    ast.NewTextExpr("["),
+							RBrack:    ast.NewTextExpr("]"),
+							Literal:   &ast.Literal{Literal: ast.NewTextExpr("int")},
+						},
+						Tag: ast.NewTextExpr("`json:\"vArray\"`"),
+						DocExpr: []ast.Expr{
+							ast.NewTextExpr("// vArray"),
 						},
 					},
 					{
-						Name: ast2.NewTextExpr("VStructPointer"),
-						DataType: &ast2.Pointer{
-							PointerExpr: ast2.NewTextExpr("*FooBar"),
-							Star:        ast2.NewTextExpr("*"),
-							Name:        ast2.NewTextExpr("FooBar"),
-						},
-						Tag: ast2.NewTextExpr("`json:\"vStructPointer\"`"),
-						DocExpr: []ast2.Expr{
-							ast2.NewTextExpr("// vStructPointer"),
+						Name:     ast.NewTextExpr("VStruct"),
+						DataType: &ast.Literal{Literal: ast.NewTextExpr("FooBar")},
+						Tag:      ast.NewTextExpr("`json:\"vStruct\"`"),
+						DocExpr: []ast.Expr{
+							ast.NewTextExpr("// vStruct"),
 						},
 					},
 					{
-						Name:     ast2.NewTextExpr("VInterface"),
-						DataType: &ast2.Interface{Literal: ast2.NewTextExpr("interface{}")},
-						Tag:      ast2.NewTextExpr("`json:\"vInterface\"`"),
-						DocExpr: []ast2.Expr{
-							ast2.NewTextExpr("// vInterface"),
+						Name: ast.NewTextExpr("VStructPointer"),
+						DataType: &ast.Pointer{
+							PointerExpr: ast.NewTextExpr("*FooBar"),
+							Star:        ast.NewTextExpr("*"),
+							Name:        ast.NewTextExpr("FooBar"),
+						},
+						Tag: ast.NewTextExpr("`json:\"vStructPointer\"`"),
+						DocExpr: []ast.Expr{
+							ast.NewTextExpr("// vStructPointer"),
+						},
+					},
+					{
+						Name:     ast.NewTextExpr("VInterface"),
+						DataType: &ast.Interface{Literal: ast.NewTextExpr("interface{}")},
+						Tag:      ast.NewTextExpr("`json:\"vInterface\"`"),
+						DocExpr: []ast.Expr{
+							ast.NewTextExpr("// vInterface"),
 						},
 					},
 					{
 						IsAnonymous: true,
-						DataType:    &ast2.Literal{Literal: ast2.NewTextExpr("FooBar")},
-						DocExpr: []ast2.Expr{
-							ast2.NewTextExpr("// inline"),
+						DataType:    &ast.Literal{Literal: ast.NewTextExpr("FooBar")},
+						DocExpr: []ast.Expr{
+							ast.NewTextExpr("// inline"),
 						},
 					},
 				},
 			},
 		},
-		Service: []*ast2.Service{
+		Service: []*ast.Service{
 			{
-				AtServer: &ast2.AtServer{
-					AtServerToken: ast2.NewTextExpr("@server"),
-					Lp:            ast2.NewTextExpr("("),
-					Rp:            ast2.NewTextExpr(")"),
-					Kv: []*ast2.KvExpr{
+				AtServer: &ast.AtServer{
+					AtServerToken: ast.NewTextExpr("@server"),
+					Lp:            ast.NewTextExpr("("),
+					Rp:            ast.NewTextExpr(")"),
+					Kv: []*ast.KvExpr{
 						{
-							Key:   ast2.NewTextExpr("host"),
-							Value: ast2.NewTextExpr("0.0.0.0"),
+							Key:   ast.NewTextExpr("host"),
+							Value: ast.NewTextExpr("0.0.0.0"),
 						},
 						{
-							Key:   ast2.NewTextExpr("port"),
-							Value: ast2.NewTextExpr("8080"),
+							Key:   ast.NewTextExpr("port"),
+							Value: ast.NewTextExpr("8080"),
 						},
 						{
-							Key: ast2.NewTextExpr("annotation"),
-							Value: ast2.NewTextExpr(`"break line
+							Key: ast.NewTextExpr("annotation"),
+							Value: ast.NewTextExpr(`"break line
     desc"`),
 						},
 					},
 				},
-				ServiceApi: &ast2.ServiceApi{
-					ServiceToken: ast2.NewTextExpr("service"),
-					Name:         ast2.NewTextExpr("foo-api"),
-					Lbrace:       ast2.NewTextExpr("{"),
-					Rbrace:       ast2.NewTextExpr("}"),
-					ServiceRoute: []*ast2.ServiceRoute{
+				ServiceApi: &ast.ServiceApi{
+					ServiceToken: ast.NewTextExpr("service"),
+					Name:         ast.NewTextExpr("foo-api"),
+					Lbrace:       ast.NewTextExpr("{"),
+					Rbrace:       ast.NewTextExpr("}"),
+					ServiceRoute: []*ast.ServiceRoute{
 						{
-							AtDoc: &ast2.AtDoc{
-								AtDocToken: ast2.NewTextExpr("@doc"),
-								Lp:         ast2.NewTextExpr("("),
-								Rp:         ast2.NewTextExpr(")"),
-								LineDoc:    ast2.NewTextExpr(`"foo"`),
+							AtDoc: &ast.AtDoc{
+								AtDocToken: ast.NewTextExpr("@doc"),
+								Lp:         ast.NewTextExpr("("),
+								Rp:         ast.NewTextExpr(")"),
+								LineDoc:    ast.NewTextExpr(`"foo"`),
 							},
-							AtHandler: &ast2.AtHandler{
-								AtHandlerToken: ast2.NewTextExpr("@handler"),
-								Name:           ast2.NewTextExpr("postFoo"),
+							AtHandler: &ast.AtHandler{
+								AtHandlerToken: ast.NewTextExpr("@handler"),
+								Name:           ast.NewTextExpr("postFoo"),
 							},
-							Route: &ast2.Route{
-								Method:      ast2.NewTextExpr("post"),
-								Path:        ast2.NewTextExpr("/foo"),
+							Route: &ast.Route{
+								Method:      ast.NewTextExpr("post"),
+								Path:        ast.NewTextExpr("/foo"),
 								Req:         body,
 								ReturnToken: returns,
 								Reply:       body,
-								DocExpr: []ast2.Expr{
-									ast2.NewTextExpr("// foo"),
+								DocExpr: []ast.Expr{
+									ast.NewTextExpr("// foo"),
 								},
 							},
 						},
 						{
-							AtDoc: &ast2.AtDoc{
-								AtDocToken: ast2.NewTextExpr("@doc"),
-								Lp:         ast2.NewTextExpr("("),
-								Rp:         ast2.NewTextExpr(")"),
-								Kv: []*ast2.KvExpr{
+							AtDoc: &ast.AtDoc{
+								AtDocToken: ast.NewTextExpr("@doc"),
+								Lp:         ast.NewTextExpr("("),
+								Rp:         ast.NewTextExpr(")"),
+								Kv: []*ast.KvExpr{
 									{
-										Key:   ast2.NewTextExpr("summary"),
-										Value: ast2.NewTextExpr("bar"),
+										Key:   ast.NewTextExpr("summary"),
+										Value: ast.NewTextExpr("bar"),
 									},
 								},
 							},
-							AtServer: &ast2.AtServer{
-								AtServerToken: ast2.NewTextExpr("@server"),
-								Lp:            ast2.NewTextExpr("("),
-								Rp:            ast2.NewTextExpr(")"),
-								Kv: []*ast2.KvExpr{
+							AtServer: &ast.AtServer{
+								AtServerToken: ast.NewTextExpr("@server"),
+								Lp:            ast.NewTextExpr("("),
+								Rp:            ast.NewTextExpr(")"),
+								Kv: []*ast.KvExpr{
 									{
-										Key:   ast2.NewTextExpr("handler"),
-										Value: ast2.NewTextExpr("postBar"),
+										Key:   ast.NewTextExpr("handler"),
+										Value: ast.NewTextExpr("postBar"),
 									},
 								},
 							},
-							Route: &ast2.Route{
-								Method: ast2.NewTextExpr("post"),
-								Path:   ast2.NewTextExpr("/bar"),
+							Route: &ast.Route{
+								Method: ast.NewTextExpr("post"),
+								Path:   ast.NewTextExpr("/bar"),
 								Req:    body,
 							},
 						},
 						{
-							AtDoc: &ast2.AtDoc{
-								AtDocToken: ast2.NewTextExpr("@doc"),
-								Lp:         ast2.NewTextExpr("("),
-								Rp:         ast2.NewTextExpr(")"),
-								LineDoc:    ast2.NewTextExpr(`"foobar"`),
+							AtDoc: &ast.AtDoc{
+								AtDocToken: ast.NewTextExpr("@doc"),
+								Lp:         ast.NewTextExpr("("),
+								Rp:         ast.NewTextExpr(")"),
+								LineDoc:    ast.NewTextExpr(`"foobar"`),
 							},
-							AtHandler: &ast2.AtHandler{
-								AtHandlerToken: ast2.NewTextExpr("@handler"),
-								Name:           ast2.NewTextExpr("postFooBar"),
+							AtHandler: &ast.AtHandler{
+								AtHandlerToken: ast.NewTextExpr("@handler"),
+								Name:           ast.NewTextExpr("postFooBar"),
 							},
-							Route: &ast2.Route{
-								Method:      ast2.NewTextExpr("post"),
-								Path:        ast2.NewTextExpr("/foo/bar"),
+							Route: &ast.Route{
+								Method:      ast.NewTextExpr("post"),
+								Path:        ast.NewTextExpr("/foo/bar"),
 								ReturnToken: returns,
 								Reply:       body,
-								DocExpr: []ast2.Expr{
-									ast2.NewTextExpr(`/**
+								DocExpr: []ast.Expr{
+									ast.NewTextExpr(`/**
     * httpmethod: post
     * path: /foo/bar
     * reply: FooBar
@@ -401,38 +401,38 @@ func TestApi(t *testing.T) {
 							},
 						},
 						{
-							AtDoc: &ast2.AtDoc{
-								AtDocToken: ast2.NewTextExpr("@doc"),
-								Lp:         ast2.NewTextExpr("("),
-								Rp:         ast2.NewTextExpr(")"),
-								LineDoc:    ast2.NewTextExpr(`"barfoo"`),
+							AtDoc: &ast.AtDoc{
+								AtDocToken: ast.NewTextExpr("@doc"),
+								Lp:         ast.NewTextExpr("("),
+								Rp:         ast.NewTextExpr(")"),
+								LineDoc:    ast.NewTextExpr(`"barfoo"`),
 							},
-							AtHandler: &ast2.AtHandler{
-								AtHandlerToken: ast2.NewTextExpr("@handler"),
-								Name:           ast2.NewTextExpr("postBarFoo"),
+							AtHandler: &ast.AtHandler{
+								AtHandlerToken: ast.NewTextExpr("@handler"),
+								Name:           ast.NewTextExpr("postBarFoo"),
 							},
-							Route: &ast2.Route{
-								Method:      ast2.NewTextExpr("post"),
-								Path:        ast2.NewTextExpr("/bar/foo"),
+							Route: &ast.Route{
+								Method:      ast.NewTextExpr("post"),
+								Path:        ast.NewTextExpr("/bar/foo"),
 								ReturnToken: returns,
 								Reply:       body,
-								CommentExpr: ast2.NewTextExpr("// post:/bar/foo"),
+								CommentExpr: ast.NewTextExpr("// post:/bar/foo"),
 							},
 						},
 						{
-							AtDoc: &ast2.AtDoc{
-								AtDocToken: ast2.NewTextExpr("@doc"),
-								Lp:         ast2.NewTextExpr("("),
-								Rp:         ast2.NewTextExpr(")"),
-								LineDoc:    ast2.NewTextExpr(`"barfoo"`),
+							AtDoc: &ast.AtDoc{
+								AtDocToken: ast.NewTextExpr("@doc"),
+								Lp:         ast.NewTextExpr("("),
+								Rp:         ast.NewTextExpr(")"),
+								LineDoc:    ast.NewTextExpr(`"barfoo"`),
 							},
-							AtHandler: &ast2.AtHandler{
-								AtHandlerToken: ast2.NewTextExpr("@handler"),
-								Name:           ast2.NewTextExpr("getBarFoo"),
+							AtHandler: &ast.AtHandler{
+								AtHandlerToken: ast.NewTextExpr("@handler"),
+								Name:           ast.NewTextExpr("getBarFoo"),
 							},
-							Route: &ast2.Route{
-								Method:      ast2.NewTextExpr("get"),
-								Path:        ast2.NewTextExpr("/bar/foo"),
+							Route: &ast.Route{
+								Method:      ast.NewTextExpr("get"),
+								Path:        ast.NewTextExpr("/bar/foo"),
 								ReturnToken: returns,
 								Reply:       body,
 							},
@@ -445,7 +445,7 @@ func TestApi(t *testing.T) {
 }
 
 func TestApiSyntax(t *testing.T) {
-	fn := func(p *api.ApiParserParser, visitor *ast2.ApiVisitor) interface{} {
+	fn := func(p *api.ApiParserParser, visitor *ast.ApiVisitor) interface{} {
 		return p.Api().Accept(visitor)
 	}
 	parser.Accept(fn, `

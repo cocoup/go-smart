@@ -3,8 +3,8 @@ package rest
 import (
 	"fmt"
 	"github.com/cocoup/go-smart/core/prometheus"
+	"github.com/cocoup/go-smart/core/utils"
 	"github.com/cocoup/go-smart/rest/middleware"
-	"github.com/cocoup/go-smart/tools/gocli/utils"
 	"github.com/gin-gonic/gin"
 	"log"
 )
