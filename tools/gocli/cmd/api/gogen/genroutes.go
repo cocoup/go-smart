@@ -88,7 +88,7 @@ func genRoutes(dir, rootPkg string, cfg *config.Config, api *spec.ApiSpec) error
 		builder.WriteString("{\n")
 
 		builder.WriteString(fmt.Sprintf("\tgroup := rootGroup.Group(\"%s\")\n", group))
-		if g.jwtEnabled && !jwtEnabled {
+		if g.jwtEnabled {
 			jwtEnabled = g.jwtEnabled
 			builder.WriteString(fmt.Sprintf("\tgroup.Use(restMid.JWTAuth(server.Conf.JWT.Secret))\n"))
 		}
