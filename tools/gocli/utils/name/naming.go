@@ -3,7 +3,7 @@
 package name
 
 import (
-	"github.com/cocoup/go-smart/tools/gocli/util/stringx"
+	"github.com/cocoup/go-smart/tools/gocli/utils/stringx"
 	"strings"
 )
 

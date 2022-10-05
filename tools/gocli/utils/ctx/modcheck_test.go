@@ -2,7 +2,7 @@ package ctx
 
 import (
 	"github.com/cocoup/go-smart/tools/gocli/execx"
-	"github.com/cocoup/go-smart/tools/gocli/util/pathx"
+	"github.com/cocoup/go-smart/tools/gocli/utils/pathx"
 	"go/build"
 	"os"
 	"path/filepath"

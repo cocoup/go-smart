@@ -1,7 +1,7 @@
 package ast
 
 import (
-	"github.com/cocoup/go-smart/tools/gocli/util/pathx"
+	"github.com/cocoup/go-smart/tools/gocli/utils/pathx"
 	"io/ioutil"
 	"os"
 	"path/filepath"
