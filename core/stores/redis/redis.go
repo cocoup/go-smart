@@ -27,6 +27,7 @@ type (
 	GeoLocation    = redis.GeoLocation
 	GeoRadiusQuery = redis.GeoRadiusQuery
 	GeoPos         = redis.GeoPos
+	Pipeliner      = redis.Pipeliner
 )
 
 const (
@@ -155,6 +156,11 @@ type RedisConn interface {
 	Expire(key string, expiration time.Duration) error
 	TTL(key string) (int, error)
 	Persist(key string) (bool, error)
+
+	Pipeline() Pipeliner
+	Pipelined(fn func(Pipeliner) error) error
+	TxPipeline() Pipeliner
+	TxPipelined(fn func(Pipeliner) error) error
 
 	Eval(script string, keys []string, args ...interface{}) (interface{}, error)
 	EvalSha(sha string, keys []string, args ...interface{}) (interface{}, error)
@@ -950,6 +956,28 @@ func (r redisConn) Persist(key string) (b bool, err error) {
 		return err
 	}, acceptable)
 	return
+}
+
+func (r redisConn) Pipeline() Pipeliner {
+	return r.client.Pipeline()
+}
+
+func (r redisConn) Pipelined(fn func(Pipeliner) error) error {
+	return r.brk.DoWithAcceptable(func() error {
+		_, err := r.client.Pipelined(context.Background(), fn)
+		return err
+	}, acceptable)
+}
+
+func (r redisConn) TxPipeline() Pipeliner {
+	return r.client.TxPipeline()
+}
+
+func (r redisConn) TxPipelined(fn func(Pipeliner) error) error {
+	return r.brk.DoWithAcceptable(func() error {
+		_, err := r.client.TxPipelined(context.Background(), fn)
+		return err
+	}, acceptable)
 }
 
 func (r redisConn) Eval(script string, keys []string, args ...interface{}) (val interface{}, err error) {

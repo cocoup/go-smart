@@ -1,8 +1,10 @@
 package redis
 
 import (
+	"golang.org/x/net/context"
 	"reflect"
 	"testing"
+	"time"
 )
 
 func testConn() RedisConn {
@@ -100,6 +102,61 @@ func Test_redisConn_Ping(t *testing.T) {
 			}
 			if gotVal != tt.wantVal {
 				t.Errorf("Ping() gotVal = %v, want %v", gotVal, tt.wantVal)
+			}
+		})
+	}
+}
+
+func Test_redisConn_Pipelined(t *testing.T) {
+	type args struct {
+		fn func(Pipeliner) error
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			name: "test1",
+			args: args{fn: func(pipe Pipeliner) error {
+				pipe.Set(context.Background(), "test", "xxx", 10*time.Second)
+				pipe.Exec(context.Background())
+				return nil
+			}},
+		},
+	}
+	r := testConn()
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := r.Pipelined(tt.args.fn); (err != nil) != tt.wantErr {
+				t.Errorf("Pipelined() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func Test_redisConn_TxPipelined(t *testing.T) {
+	type args struct {
+		fn func(Pipeliner) error
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			name: "test1",
+			args: args{fn: func(pipe Pipeliner) error {
+				pipe.Set(context.Background(), "test", "xxx", 10*time.Second)
+				return nil
+			}},
+		},
+	}
+	r := testConn()
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := r.TxPipelined(tt.args.fn); (err != nil) != tt.wantErr {
+				t.Errorf("Pipelined() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}
