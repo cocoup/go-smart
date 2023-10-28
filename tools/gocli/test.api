@@ -31,13 +31,13 @@ service user-center {
     get /info/:id returns (UserResp)
 
     @handler updateUser
-    post / (UserReq)
+    post /update (UserReq)
 
     @handler testUser
     post /user/test (UserReq)
 
     @handler testUser2
-    post /usertest (UserReq)
+    post /usertest2 (UserReq)
 
     @handler testUser3
     post /user (UserReq)
@@ -72,7 +72,7 @@ service user-center {
     post /nettime (NetTimeReq) returns (NetTimeResp)
 
     @handler testUser4
-    post /user (UserReq)
+    post /user4 (UserReq)
 
 //    @handler testUser7
 //    post /user (UserReq)
@@ -103,5 +103,8 @@ service user-center {
     get /order (OrderReq) returns (OrderResp)
 
     @handler checkOrder
-    post /*check returns (OrderResp)
+    post /check returns (OrderResp)
+
+    @handler testString
+    get /string returns (string)
 }

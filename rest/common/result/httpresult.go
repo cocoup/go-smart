@@ -31,7 +31,11 @@ func HttpFailed(ctx *gin.Context, err error) {
 func HttpResult(ctx *gin.Context, data interface{}, err error) {
 	if nil == err {
 		ctx.Set("code", errorx.SUCCESS.String())
-		ctx.JSON(http.StatusOK, Success(data))
+		if sData, ok := data.(string); ok {
+			ctx.String(http.StatusOK, sData)
+		} else {
+			ctx.JSON(http.StatusOK, Success(data))
+		}
 	} else {
 		HttpFailed(ctx, err)
 	}
